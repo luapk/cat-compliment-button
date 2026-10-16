@@ -293,7 +293,7 @@
   /* ---------- the recorded voice ---------- */
   // Bump AUDIO_VERSION (here and in sw.js) whenever the clips change: the new
   // address makes every browser fetch the new recording instead of a saved one.
-  const AUDIO_VERSION = "3";
+  const AUDIO_VERSION = "4";
   const clipUrl = i => `audio/${lang}/${String(i + 1).padStart(2, "0")}.mp3?v=${AUDIO_VERSION}`;
   // One element, played straight from the tap so phones allow it. An <audio>
   // element also plays with an iPhone on silent, which Web Audio does not.

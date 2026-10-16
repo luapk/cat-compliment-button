@@ -1,7 +1,7 @@
 # Temptations Cat Compliment Button
 
 A 3D Temptations button. Tap it and your cat delivers one of 12 backhanded
-compliments in a female robot voice (no bleeps), with optional subtitles in a speech
+compliments in a female robot voice, with optional subtitles in a speech
 bubble. All 12 play before any line repeats. Available in English (default), Spanish,
 Italian and French, picked from the flag in the nav bar. A "How it works"
 sheet explains the button and how to treat your cat with Temptations.
@@ -92,7 +92,10 @@ that domain there.
 
 ## Swapping in the Adam&Eve recordings
 
-The clips in `audio/` are synthetic placeholders made with eSpeak NG. To use the
+The clips in `audio/` are synthetic placeholders made with Kokoro, an
+open-source speech model (Apache 2.0 licence): the voice Isabella (`bf_isabella`,
+British) for English, and Dora, Sara and Siwis for Spanish, Italian and French,
+all with a robot effect added in ffmpeg (echo, tremolo, high-pass). To use the
 final recordings:
 
 1. Supply 12 files per language named `01.mp3` to `12.mp3`, in `audio/en/`,
