@@ -1,8 +1,10 @@
 # Temptations Cat Compliment Button
 
 A 3D Temptations button. Tap it and your cat delivers one of 30 backhanded
-compliments in a robot voice, typed out in a speech bubble at the same time.
-All 30 play before any line repeats.
+compliments in a robot voice, with optional subtitles in a speech bubble.
+All 30 play before any line repeats. Available in English (default), Spanish,
+Italian and French, picked with the flags under the button. A "How it works"
+sheet explains the button and how to treat your cat with Temptations.
 
 It is a static site: plain HTML, CSS and JavaScript. No build step, no
 framework, no server code, no database, no login, no cookies, and no personal
@@ -13,7 +15,8 @@ data collected. After the first visit it works offline.
 ```
 index.html             the page
 styles.css             the 3D button, bubble and layout (pure CSS, no images)
-app.js                 the 30 lines, shuffle, press animation, audio playback
+app.js                 all copy in 4 languages (COPY), shuffle, press, audio,
+                       subtitles switch, language flags, How it works sheet
 sw.js                  offline cache (service worker)
 manifest.webmanifest   lets people "Add to Home Screen" with an icon
 vercel.json            security headers and caching for Vercel
@@ -21,7 +24,8 @@ assets/
   temptations-logo.png the logo on the button cap
   icon-*.png           home-screen and browser icons
 audio/
-  01.mp3 ... 30.mp3    one clip per line, in the same order as LINES in app.js
+  en/01.mp3 ... 30.mp3 one clip per line, in the same order as COPY.en.lines
+  es/  it/  fr/        the same 30 lines in Spanish, Italian and French
 fonts/
   fredoka-latin.woff2  the UI font, hosted here rather than on Google Fonts
   OFL.txt              its licence (SIL Open Font License)
@@ -76,8 +80,10 @@ that domain there.
 The clips in `audio/` are synthetic placeholders made with eSpeak NG. To use the
 final recordings:
 
-1. Supply 30 files named `01.mp3` to `30.mp3`. File `NN.mp3` is line NN of
-   `LINES` in `app.js` (01 is "Katie's new man is shorter than you.").
+1. Supply 30 files per language named `01.mp3` to `30.mp3`, in `audio/en/`,
+   `audio/es/`, `audio/it/` and `audio/fr/`. File `NN.mp3` is line NN of that
+   language's `lines` in `app.js` (01 is "Katie's new man is shorter than you."
+   and its translations).
 2. Suggested spec: MP3, mono, 44.1 or 48 kHz, 64 to 96 kbps, silence trimmed,
    loudness matched (around -16 LUFS) so no line is louder than the others.
 3. Replace the files in `audio/`, keeping the names.
@@ -88,12 +94,24 @@ final recordings:
 If a clip is missing or will not play, the button falls back to the device's
 own text-to-speech voice reading the line, so it never goes silent.
 
-## Changing the lines
+## Changing the copy
 
-The lines are the `LINES` list at the top of `app.js`. The order matters: line
-1 plays `audio/01.mp3`, and so on. If you add, remove or reorder lines, keep the
-audio files in step, update the list of clips in `sw.js`, and bump `CACHE`.
-The "x of 30 heard" counter uses the length of the list automatically.
+Every word on screen lives in `COPY` at the top of `app.js`: one block per
+language with the interface labels (`ui`), the How it works sheet (`guide`) and
+the 30 `lines`. The order of `lines` matters: line 1 plays `audio/<lang>/01.mp3`,
+and so on, and all four languages must keep the same number of lines. If you
+add, remove or reorder lines, keep the audio files in step, update the English
+clip list in `sw.js`, and bump `CACHE`.
+
+The translations are first drafts. Have a native speaker in each market check
+the jokes and the treat guidance before launch.
+
+## Settings people can change
+
+- **Subtitles** (top right) shows or hides the speech bubble. Screen readers get
+  every line either way.
+- **Language** (flags under the button). English is the default.
+- Both are remembered on that device only (browser storage); nothing is sent.
 
 ## Behaviour notes for testing
 
@@ -105,8 +123,8 @@ The "x of 30 heard" counter uses the length of the list automatically.
 - **Accessibility:** the button is a real `<button>` with a label, works with
   Space and Enter, the line is announced to screen readers (`aria-live`), and
   animations are switched off for people who ask for reduced motion.
-- **Data:** nothing is stored or sent. The heard counter lives in memory and
-  resets on reload. If analytics are wanted, add them through the site's
+- **Data:** nothing is sent anywhere. The only thing stored is the subtitles and
+  language choice, in the browser on that device. If analytics are wanted, add them through the site's
   consent setup and add the analytics host to the CSP in `vercel.json`.
 
 ## Before going live
