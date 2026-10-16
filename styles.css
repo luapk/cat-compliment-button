@@ -55,6 +55,7 @@ body {
   font-size: clamp(17px, 4.6vw, 21px);
   line-height: 1.25;
   text-align: center;
+  overflow-wrap: anywhere; /* "charmintellecthairlinebiceps" must wrap on small phones */
   transform-origin: 50% 100%;
   transition: transform .25s cubic-bezier(.3,1.6,.5,1), opacity .2s;
 }

@@ -1,8 +1,9 @@
 /* Cat Compliment Button: tap, shuffle, speak. No server, no data collected. */
 (() => {
   /* ---------- copy, one block per language ----------
-     Line N of a language plays audio/<code>/NN.mp3 (01 to 30), so the order of
-     `lines` must match the audio files. All four lists hold the same 30 jokes. */
+     Line N of a language plays audio/<code>/NN.mp3 (01, 02, ...), so the order
+     of `lines` must match the audio files, and all four lists must hold the
+     same jokes in the same order. "{n}" in the copy becomes the number of lines. */
   const COPY = {
     en: {
       name: "English",
@@ -20,7 +21,7 @@
         title: "How it works",
         steps: [
           "Tap the button. Your cat tells you exactly what it thinks of you.",
-          "There are 30 compliments. You’ll hear every one before any repeats.",
+          "There are {n} compliments. You’ll hear every one before any repeats.",
           "Turn Subtitles on to read along, or off to just listen.",
           "Pick your language with the flag at the top."
         ],
@@ -34,37 +35,21 @@
         ]
       },
       lines: [
+        "I didn't know supermodels could work from home.",
         "Katie's new man is shorter than you.",
-        "Who's a cutie patootie? You are! Mostly.",
-        "You're my favourite human. You're also the only one who can open the treat bag.",
-        "Your singing is almost as good as the hoover.",
-        "You smell amazing. Like tuna. Did you eat my tuna?",
-        "Your lap is the second warmest place in the house. After the laptop.",
-        "You look great for someone who was scrolling in bed until three a.m.",
-        "You're so good at opening tins. It's your only skill, but you nailed it.",
-        "I'd bring you a dead mouse, but you'd only mess it up.",
-        "You're not lazy. You're just training to be a cat.",
-        "Your new haircut is brave. Very, very brave.",
-        "I've seen you dance in the kitchen. Nobody else ever has to know.",
-        "You're doing really well, for a hairless ape.",
-        "Nobody scoops a litter tray like you. Truly, it's your calling.",
-        "Lovely outfit today. I'll add some fur to finish it off.",
-        "You're much better looking from under the bed.",
-        "I'd say you're purrfect, but I only lie for treats.",
-        "Your cooking smells incredible. Shame about how it tastes.",
-        "You're so clever. You almost found the toy I hid under the fridge.",
-        "You have a face only a cat could love. Lucky for you, I'm a cat.",
-        "You're hilarious when you trip over me. Do it again.",
-        "Your friends think you're boring. I think you're a fantastic radiator.",
-        "Your plants are thriving. The ones I haven't eaten, anyway.",
-        "So proud of you for going to the gym. That one time.",
-        "I scream at five a.m. because I can't wait to see you. Mostly for breakfast.",
-        "I'd follow you anywhere. As long as anywhere is the kitchen.",
-        "You're the most patient human I know. Watch this glass. Watch it go.",
-        "Your ex says hi. I left them on read, for you.",
-        "You've got great taste in cats. Everything else, less so.",
-        "I love you more than anything. Except the box your present came in."
-      ]
+        "You have amazing charmintellecthairlinebiceps.",
+        "I always dream about you when I nap… and I nap a lot, so that's a really good compliment.",
+        "Thanks for everything daddy. Is it weird if I call you daddy?",
+        "Damn, you're looking like a snack right now. And I like snacks.",
+        "Your hair is full and glossy. Have you been licking it?",
+        "Who's a cutie patootie? It is you.",
+        "You are a real cool guy.",
+        "I want to spend all nine of my lives with you.",
+        "You have a very natural head shape.",
+        "Your skin's so good it's like you're aging in reverse. Stop, you'll be a little baby soon!"
+      ],
+      // how the voice says the run-together word, for the device-voice fallback
+      spoken: { 2: "You have amazing charm, intellect, hairline, biceps." }
     },
     es: {
       name: "Español",
@@ -82,7 +67,7 @@
         title: "Cómo funciona",
         steps: [
           "Toca el botón. Tu gato te dirá exactamente lo que piensa de ti.",
-          "Hay 30 cumplidos. Los oirás todos antes de que se repita ninguno.",
+          "Hay {n} cumplidos. Los oirás todos antes de que se repita ninguno.",
           "Activa los subtítulos para leerlos, o desactívalos para solo escuchar.",
           "Elige el idioma con la bandera de arriba."
         ],
@@ -96,37 +81,21 @@
         ]
       },
       lines: [
+        "No sabía que las supermodelos podían teletrabajar.",
         "El nuevo novio de Katie es más bajito que tú.",
-        "¿Quién es la cosa más bonita? ¡Tú! Casi siempre.",
-        "Eres mi humano favorito. Y la única persona que sabe abrir la bolsa de premios.",
-        "Cantas casi tan bien como la aspiradora.",
-        "Hueles de maravilla. A atún. ¿Te has comido mi atún?",
-        "Tu regazo es el segundo sitio más calentito de la casa. Después del portátil.",
-        "Tienes muy buena cara para alguien que estuvo mirando el móvil en la cama hasta las tres.",
-        "Qué bien abres las latas. Es tu único talento, pero lo bordas.",
-        "Te traería un ratón muerto, pero seguro que lo estropeabas.",
-        "No es pereza. Es que estás entrenando para ser gato.",
-        "Tu nuevo corte de pelo es valiente. Muy, muy valiente.",
-        "Te he visto bailar en la cocina. Nadie más tiene por qué saberlo.",
-        "Lo estás haciendo muy bien, para ser un simio sin pelo.",
-        "Nadie limpia un arenero como tú. De verdad, es tu vocación.",
-        "Qué conjunto tan bonito llevas hoy. Le añadiré unos pelos para rematarlo.",
-        "Desde debajo de la cama se te ve mucho mejor.",
-        "Diría que no tienes ningún defecto, pero solo miento a cambio de premios.",
-        "Tu comida huele de maravilla. Lástima de cómo sabe.",
-        "Qué cabeza tienes. Casi encuentras el juguete que escondí debajo de la nevera.",
-        "Tienes una cara que solo un gato podría querer. Por suerte, soy un gato.",
-        "Me parto de risa cuando tropiezas conmigo. Hazlo otra vez.",
-        "Tus amigos dicen que eres un rollo. Yo creo que eres un radiador fantástico.",
-        "Tus plantas están preciosas. Las que no me he comido, claro.",
-        "Qué orgullo que fueras al gimnasio. Aquella vez.",
-        "Grito a las cinco de la mañana porque estoy deseando verte. Sobre todo para desayunar.",
-        "Te seguiría a cualquier parte. Siempre que esa parte sea la cocina.",
-        "Eres el humano más paciente que conozco. Mira este vaso. Míralo caer.",
-        "Tu ex te manda saludos. Le he dejado en visto, por ti.",
-        "Tienes muy buen gusto para los gatos. Para todo lo demás, no tanto.",
-        "Te quiero más que a nada. Menos que a la caja en la que vino tu regalo."
-      ]
+        "Tienes un encantointelectopelobíceps increíble.",
+        "Siempre sueño contigo cuando duermo la siesta… y duermo muchas siestas, así que es un cumplido enorme.",
+        "Gracias por todo, papi. ¿Es raro que te llame papi?",
+        "Madre mía, estás para comerte. Y a mí me encanta comer.",
+        "Tienes el pelo abundante y brillante. ¿Te lo has estado lamiendo?",
+        "¿Quién es la cosa más bonita? Eres tú.",
+        "Eres un tío muy guay.",
+        "Quiero pasar mis siete vidas contigo.",
+        "Tienes una forma de cabeza muy natural.",
+        "Tu piel está tan bien que parece que rejuveneces. ¡Para, que pronto serás un bebé!"
+      ],
+      // how the voice says the run-together word, for the device-voice fallback
+      spoken: { 2: "Tienes un encanto, intelecto, pelo, bíceps increíble." }
     },
     it: {
       name: "Italiano",
@@ -144,7 +113,7 @@
         title: "Come funziona",
         steps: [
           "Tocca il pulsante. Il tuo gatto ti dirà esattamente cosa pensa di te.",
-          "Ci sono 30 complimenti. Li sentirai tutti prima che uno si ripeta.",
+          "Ci sono {n} complimenti. Li sentirai tutti prima che uno si ripeta.",
           "Attiva i sottotitoli per leggere, o disattivali per ascoltare e basta.",
           "Scegli la lingua con la bandierina in alto."
         ],
@@ -158,37 +127,21 @@
         ]
       },
       lines: [
+        "Non sapevo che le top model potessero lavorare da casa.",
         "Il nuovo ragazzo di Katie è più basso di te.",
-        "Chi è il più carino del mondo? Tu! Più o meno.",
-        "Sei il mio umano preferito. E l'unica persona che sa aprire il sacchetto dei premi.",
-        "Canti bene quasi quanto l'aspirapolvere.",
-        "Hai un profumo fantastico. Di tonno. Hai mangiato il mio tonno?",
-        "Il tuo grembo è il secondo posto più caldo della casa. Dopo il portatile.",
-        "Hai un'ottima cera per chi è rimasto a scorrere il telefono a letto fino alle tre.",
-        "Apri le scatolette come nessuno. È il tuo unico talento, ma che talento.",
-        "Ti porterei un topo morto, ma tanto lo rovineresti.",
-        "Non è pigrizia. Ti stai solo allenando a diventare un gatto.",
-        "Il tuo nuovo taglio di capelli è coraggioso. Molto, molto coraggioso.",
-        "Ti ho visto ballare in cucina. Nessun altro deve saperlo per forza.",
-        "Te la cavi benissimo, per essere una scimmia senza pelo.",
-        "Nessuno pulisce una lettiera come te. Davvero, è la tua vocazione.",
-        "Che bel vestito oggi. Ci aggiungo un po' di pelo per completarlo.",
-        "Visto da sotto il letto, fai un figurone.",
-        "Direi che non hai difetti, ma mento solo in cambio di premi.",
-        "La tua cucina ha un profumo incredibile. Peccato per il sapore.",
-        "Che cervello. Hai quasi trovato il gioco che ho nascosto sotto il frigo.",
-        "Hai una faccia che solo un gatto potrebbe amare. Per tua fortuna, sono un gatto.",
-        "Mi fai morire dal ridere quando inciampi su di me. Rifallo.",
-        "I tuoi amici dicono che sei una noia. Io dico che sei un termosifone fantastico.",
-        "Le tue piante stanno benissimo. Quelle che non ho mangiato, almeno.",
-        "Che orgoglio, la tua iscrizione in palestra. L'unica volta che l'hai usata.",
-        "Urlo alle cinque del mattino perché non vedo l'ora di vederti. Soprattutto per la colazione.",
-        "Ti seguirei ovunque. Purché ovunque sia la cucina.",
-        "Sei l'umano più paziente che conosco. Guarda questo bicchiere. Guardalo cadere.",
-        "Il tuo ex ti saluta. L'ho lasciato in visualizzato, per te.",
-        "Hai ottimi gusti in fatto di gatti. Per tutto il resto, meno.",
-        "Ti amo più di ogni cosa. Tranne la scatola in cui è arrivato il tuo regalo."
-      ]
+        "Hai un fascinointellettochiomabicipiti pazzesco.",
+        "Ti sogno sempre quando faccio il pisolino… e faccio un sacco di pisolini, quindi è un gran complimento.",
+        "Grazie di tutto, papi. È strano se ti chiamo papi?",
+        "Accidenti, sei proprio un bocconcino. E io adoro i bocconcini.",
+        "Hai i capelli folti e lucidi. Te li sei leccati?",
+        "Chi è il più carino del mondo? Sei tu.",
+        "Sei un tipo davvero figo.",
+        "Voglio passare tutte e sette le mie vite con te.",
+        "Hai una forma della testa molto naturale.",
+        "Hai una pelle così bella che sembri ringiovanire. Basta, tra poco sarai un neonato!"
+      ],
+      // how the voice says the run-together word, for the device-voice fallback
+      spoken: { 2: "Hai un fascino, intelletto, chioma, bicipiti pazzesco." }
     },
     fr: {
       name: "Français",
@@ -206,7 +159,7 @@
         title: "Comment ça marche",
         steps: [
           "Touche le bouton. Ton chat te dit exactement ce qu’il pense de toi.",
-          "Il y a 30 compliments. Tu les entendras tous avant qu’un seul se répète.",
+          "Il y a {n} compliments. Tu les entendras tous avant qu’un seul se répète.",
           "Active les sous-titres pour lire, ou coupe-les pour simplement écouter.",
           "Choisis ta langue avec le drapeau en haut."
         ],
@@ -220,37 +173,21 @@
         ]
       },
       lines: [
+        "Je ne savais pas que les top-modèles pouvaient télétravailler.",
         "Le nouveau copain de Katie est plus petit que toi.",
-        "Qui c'est le plus mignon\u00a0? C'est toi\u00a0! Enfin, presque.",
-        "Tu es mon humain préféré. Et la seule personne qui sache ouvrir le sachet de friandises.",
-        "Tu chantes presque aussi bien que l'aspirateur.",
-        "Tu sens divinement bon. Le thon. Tu as mangé mon thon\u00a0?",
-        "Tes genoux sont le deuxième endroit le plus chaud de la maison. Après l'ordinateur portable.",
-        "Tu as plutôt bonne mine pour quelqu'un qui scrollait au lit jusqu'à trois heures du matin.",
-        "Personne n'ouvre une boîte de pâtée comme toi. C'est ton seul talent, mais quel talent.",
-        "Je t'apporterais bien une souris morte, mais tu la gâcherais.",
-        "Ce n'est pas de la paresse. Tu t'entraînes juste à devenir un chat.",
-        "Ta nouvelle coupe de cheveux est courageuse. Très, très courageuse.",
-        "J'ai assisté à ta danse dans la cuisine. Personne d'autre n'a besoin de le savoir.",
-        "Tu te débrouilles très bien, pour un singe sans poils.",
-        "Personne ne nettoie une litière comme toi. Vraiment, c'est ta vocation.",
-        "Jolie tenue aujourd'hui. Je vais ajouter quelques poils pour la finition.",
-        "Vu de sous le lit, tu as beaucoup plus d'allure.",
-        "Je dirais que tu n'as aucun défaut, mais je ne mens que contre des friandises.",
-        "Ta cuisine sent incroyablement bon. Dommage pour le goût.",
-        "Quelle intelligence. Tu as presque trouvé le jouet que j'ai caché sous le frigo.",
-        "Tu as une tête que seul un chat pourrait aimer. Ça tombe bien, je suis un chat.",
-        "Je ris tellement quand tu trébuches sur moi. Recommence.",
-        "Tes amis disent que tu es d'un ennui. Moi, je dis que tu es un radiateur formidable.",
-        "Tes plantes sont magnifiques. Enfin, celles que je n'ai pas mangées.",
-        "Quelle fierté, ta séance de sport. La seule.",
-        "Je hurle à cinq heures du matin parce que j'ai hâte de te voir. Surtout pour le petit-déjeuner.",
-        "Je te suivrais n'importe où. Tant que n'importe où, c'est la cuisine.",
-        "Tu es l'humain le plus patient que je connaisse. Regarde ce verre. Regarde-le tomber.",
-        "Ton ex te passe le bonjour. Je l'ai laissé en vu, pour toi.",
-        "Tu as très bon goût en matière de chats. Pour le reste, un peu moins.",
-        "Je t'aime plus que tout. Sauf le carton dans lequel ton cadeau est arrivé."
-      ]
+        "Tu as un charmeintellectchevelurebiceps incroyable.",
+        "Je rêve toujours de toi pendant mes siestes… et je fais beaucoup de siestes, alors c'est un sacré compliment.",
+        "Merci pour tout, daddy. C'est bizarre si je t'appelle daddy\u00a0?",
+        "Waouh, tu es à croquer. Et j'adore croquer.",
+        "Tes cheveux sont épais et brillants. Tu les as léchés\u00a0?",
+        "Qui c'est le plus mignon\u00a0? C'est toi.",
+        "T'es vraiment un mec cool.",
+        "Je veux passer mes neuf vies avec toi.",
+        "Tu as une forme de tête très naturelle.",
+        "Ta peau est si belle qu'on dirait que tu rajeunis. Arrête, tu vas bientôt redevenir un bébé\u00a0!"
+      ],
+      // how the voice says the run-together word, for the device-voice fallback
+      spoken: { 2: "Tu as un charme, intellect, chevelure, biceps incroyable." }
     }
   };
   const LANGS = Object.keys(COPY);
@@ -283,7 +220,7 @@
   window.addEventListener("resize", resize);
   resize();
 
-  /* ---------- shuffle bag: all 30 before any repeats ---------- */
+  /* ---------- shuffle bag: every line once before any repeats ---------- */
   let bag = [], last = -1;
   function nextIndex() {
     if (!bag.length) {
@@ -324,38 +261,32 @@
 
   /* ---------- fallback voice: the device's own, only if a clip will not play ---------- */
   const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
-  const ROBOT_VOICES = ["Zarvox", "Trinoids", "Fred"]; // genuinely robotic English voices on Apple devices
-  let voice = null, nativeRobot = false;
+  // The cat is female: prefer a female voice in the chosen language.
+  const FEMALE = /samantha|karen|moira|tessa|serena|kate|victoria|fiona|susan|hazel|zira|libby|sonia|female|m[oó]nica|paulina|marisol|helena|laura|elvira|alice|federica|elsa|isabella|am[eé]lie|audrey|marie|julie|hortense|denise/i;
+  let voice = null;
   function pickVoice() {
-    voice = null; nativeRobot = false;
+    voice = null;
     if (!synth) return;
-    const vs = synth.getVoices();
+    const code = COPY[lang].speech.toLowerCase();
+    const vs = synth.getVoices().filter(v => v.lang.replace("_", "-").toLowerCase().startsWith(code.slice(0, 2)));
     if (!vs.length) return;
-    const code = COPY[lang].speech;
-    const base = code.slice(0, 2);
-    if (lang === "en") {
-      for (const n of ROBOT_VOICES) {
-        const v = vs.find(v => v.name.startsWith(n) && /^en/i.test(v.lang));
-        if (v) { voice = v; nativeRobot = true; return; }
-      }
-    }
-    voice = vs.find(v => v.lang.replace("_", "-").toLowerCase() === code.toLowerCase())
-         || vs.find(v => v.lang.toLowerCase().startsWith(base))
-         || null;
+    const exact = vs.filter(v => v.lang.replace("_", "-").toLowerCase() === code);
+    voice = exact.find(v => FEMALE.test(v.name)) || vs.find(v => FEMALE.test(v.name)) || exact[0] || vs[0];
   }
   if (synth) {
     pickVoice();
     synth.addEventListener?.("voiceschanged", pickVoice);
   }
-  function speakFallback(text) {
+  function speakFallback(i) {
     if (!synth) return;
     synth.cancel();
-    const u = new SpeechSynthesisUtterance(text);
+    const c = COPY[lang];
+    const u = new SpeechSynthesisUtterance(c.spoken[i] || c.lines[i]);
     if (voice) u.voice = voice;
     u.lang = COPY[lang].speech;
-    // Flat, low and a touch slow reads as robot on ordinary voices.
-    u.pitch = nativeRobot ? 1 : 0.15;
-    u.rate = nativeRobot ? 0.95 : 0.88;
+    // Flat and a touch slow reads as robotic without dropping into a male register.
+    u.pitch = 1.1;
+    u.rate = 0.9;
     synth.speak(u);
   }
 
@@ -372,7 +303,7 @@
     player.currentTime = 0;
     const p = player.play();
     // A missing or blocked clip falls back to the device's own voice.
-    if (p && p.catch) p.catch(() => speakFallback(COPY[lang].lines[i]));
+    if (p && p.catch) p.catch(() => speakFallback(i));
   }
   function hush() {
     player.pause();
@@ -438,7 +369,7 @@
     const chosen = langOpts.find(o => o.dataset.lang === code);
     $("langFlag").replaceChildren(chosen.querySelector("svg").cloneNode(true));
     $("howTitle").textContent = c.guide.title;
-    fillList($("howSteps"), c.guide.steps);
+    fillList($("howSteps"), c.guide.steps.map(t => t.replace("{n}", COUNT)));
     $("howNote").textContent = c.guide.note;
     $("treatTitle").textContent = c.guide.treatTitle;
     fillList($("treatList"), c.guide.treats);

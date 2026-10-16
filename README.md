@@ -1,8 +1,8 @@
 # Temptations Cat Compliment Button
 
-A 3D Temptations button. Tap it and your cat delivers one of 30 backhanded
-compliments in a robot voice, with optional subtitles in a speech bubble.
-All 30 play before any line repeats. Available in English (default), Spanish,
+A 3D Temptations button. Tap it and your cat delivers one of 12 backhanded
+compliments in a female robot voice, with optional subtitles in a speech
+bubble. All 12 play before any line repeats. Available in English (default), Spanish,
 Italian and French, picked from the flag in the nav bar. A "How it works"
 sheet explains the button and how to treat your cat with Temptations.
 
@@ -24,8 +24,8 @@ assets/
   temptations-logo.png the logo on the button cap
   icon-*.png           home-screen and browser icons
 audio/
-  en/01.mp3 ... 30.mp3 one clip per line, in the same order as COPY.en.lines
-  es/  it/  fr/        the same 30 lines in Spanish, Italian and French
+  en/01.mp3 ... 12.mp3 one clip per line, in the same order as COPY.en.lines
+  es/  it/  fr/        the same 12 lines in Spanish, Italian and French
 fonts/
   fredoka-latin.woff2  the UI font, hosted here rather than on Google Fonts
   OFL.txt              its licence (SIL Open Font License)
@@ -80,14 +80,14 @@ that domain there.
 The clips in `audio/` are synthetic placeholders made with eSpeak NG. To use the
 final recordings:
 
-1. Supply 30 files per language named `01.mp3` to `30.mp3`, in `audio/en/`,
+1. Supply 12 files per language named `01.mp3` to `12.mp3`, in `audio/en/`,
    `audio/es/`, `audio/it/` and `audio/fr/`. File `NN.mp3` is line NN of that
-   language's `lines` in `app.js` (01 is "Katie's new man is shorter than you."
-   and its translations).
+   language's `lines` in `app.js` (01 is "I didn't know supermodels could work
+   from home." and its translations). The voice is female.
 2. Suggested spec: MP3, mono, 44.1 or 48 kHz, 64 to 96 kbps, silence trimmed,
    loudness matched (around -16 LUFS) so no line is louder than the others.
 3. Replace the files in `audio/`, keeping the names.
-4. In `sw.js`, change `CACHE = "cat-button-v1"` to `v2` (and so on each time),
+4. In `sw.js`, bump the number in `CACHE = "cat-button-v4"` (v5, v6 and so on),
    so returning visitors get the new files instead of their cached copies.
 5. Commit and push. Vercel redeploys.
 
@@ -98,7 +98,7 @@ own text-to-speech voice reading the line, so it never goes silent.
 
 Every word on screen lives in `COPY` at the top of `app.js`: one block per
 language with the interface labels (`ui`), the How it works sheet (`guide`) and
-the 30 `lines`. The order of `lines` matters: line 1 plays `audio/<lang>/01.mp3`,
+the 12 `lines`. The order of `lines` matters: line 1 plays `audio/<lang>/01.mp3`,
 and so on, and all four languages must keep the same number of lines. If you
 add, remove or reorder lines, keep the audio files in step, update the English
 clip list in `sw.js`, and bump `CACHE`.
@@ -129,7 +129,7 @@ the jokes and the treat guidance before launch.
 
 ## Before going live
 
-- Legal and brand sign-off on all 30 lines and on the logo use.
+- Legal and brand sign-off on all 12 lines and on the logo use.
 - Usage rights for the Adam&Eve recordings (app and web, markets, term).
 - Real-device testing: iPhone Safari, Android Chrome, desktop browsers.
 - Replace the logo with a high-resolution or SVG version if available; the

@@ -3,7 +3,7 @@
    the first time each one plays.
    Bump CACHE whenever any file changes (new recordings, new lines, new logo),
    or returning visitors keep the old copies. */
-const CACHE = "cat-button-v3";
+const CACHE = "cat-button-v4";
 
 const FILES = [
   "./",
@@ -26,25 +26,7 @@ const FILES = [
   "audio/en/09.mp3",
   "audio/en/10.mp3",
   "audio/en/11.mp3",
-  "audio/en/12.mp3",
-  "audio/en/13.mp3",
-  "audio/en/14.mp3",
-  "audio/en/15.mp3",
-  "audio/en/16.mp3",
-  "audio/en/17.mp3",
-  "audio/en/18.mp3",
-  "audio/en/19.mp3",
-  "audio/en/20.mp3",
-  "audio/en/21.mp3",
-  "audio/en/22.mp3",
-  "audio/en/23.mp3",
-  "audio/en/24.mp3",
-  "audio/en/25.mp3",
-  "audio/en/26.mp3",
-  "audio/en/27.mp3",
-  "audio/en/28.mp3",
-  "audio/en/29.mp3",
-  "audio/en/30.mp3"
+  "audio/en/12.mp3"
 ];
 
 self.addEventListener("install", event => {
