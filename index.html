@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Temptations Cat Compliment Button</title>
+  <meta name="description" content="Tap the button and your cat tells you what it really thinks of you.">
+  <meta name="theme-color" content="#FFD21F">
+  <link rel="icon" href="assets/icon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="fonts/fredoka-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+
+  <div class="bubble-wrap">
+    <div class="bubble idle" id="bubble" aria-live="polite">
+      <span id="line"></span>
+      <span class="who">Your cat, probably</span>
+    </div>
+  </div>
+
+  <div class="fit" id="fit">
+    <div class="stage" id="stage">
+      <span class="abs ground"></span>
+      <span class="abs base-side"></span>
+      <span class="abs gloss"></span>
+      <span class="abs gloss two"></span>
+      <span class="abs base-top"></span>
+      <span class="abs seat"></span>
+      <span class="abs cap-side"></span>
+      <span class="abs cap-top">
+        <svg viewBox="0 0 240 100" aria-hidden="true">
+          <!-- the supplied Temptations logo, squashed vertically to sit flat on the tilted cap -->
+          <image x="20" y="14" width="200" height="72" preserveAspectRatio="none" href="assets/temptations-logo.png"/>
+        </svg>
+      </span>
+      <button class="press" id="press" aria-label="Press for a compliment from your cat"></button>
+    </div>
+  </div>
+
+  <div class="hint">
+    Tap for a compliment*
+    <small id="sub">*compliment not guaranteed. Sound up.</small>
+  </div>
+</body>
+</html>
