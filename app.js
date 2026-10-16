@@ -291,7 +291,10 @@
   }
 
   /* ---------- the recorded voice ---------- */
-  const clipUrl = i => `audio/${lang}/${String(i + 1).padStart(2, "0")}.mp3`;
+  // Bump AUDIO_VERSION (here and in sw.js) whenever the clips change: the new
+  // address makes every browser fetch the new recording instead of a saved one.
+  const AUDIO_VERSION = "2";
+  const clipUrl = i => `audio/${lang}/${String(i + 1).padStart(2, "0")}.mp3?v=${AUDIO_VERSION}`;
   // One element, played straight from the tap so phones allow it. An <audio>
   // element also plays with an iPhone on silent, which Web Audio does not.
   const player = new Audio();
@@ -472,6 +475,16 @@
 
   /* ---------- offline: cache the page and its files after the first visit ---------- */
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    // When an update takes over from an older version, reload once so the new
+    // lines and voice show straight away rather than on the next visit.
+    if (navigator.serviceWorker.controller) {
+      let reloaded = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (reloaded) return;
+        reloaded = true;
+        location.reload();
+      });
+    }
     window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
   }
 })();

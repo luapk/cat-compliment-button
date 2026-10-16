@@ -87,8 +87,9 @@ final recordings:
 2. Suggested spec: MP3, mono, 44.1 or 48 kHz, 64 to 96 kbps, silence trimmed,
    loudness matched (around -16 LUFS) so no line is louder than the others.
 3. Replace the files in `audio/`, keeping the names.
-4. In `sw.js`, bump the number in `CACHE = "cat-button-v4"` (v5, v6 and so on),
-   so returning visitors get the new files instead of their cached copies.
+4. Bump `AUDIO_VERSION` in BOTH `app.js` and `sw.js` (2, 3, 4 ...) and the
+   number in `CACHE = "cat-button-v5"` in `sw.js`. The new version gives every
+   clip a new address, so no phone can keep playing an old recording it saved.
 5. Commit and push. Vercel redeploys.
 
 If a clip is missing or will not play, the button falls back to the device's
