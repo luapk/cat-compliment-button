@@ -1,7 +1,7 @@
 # Temptations Cat Compliment Button
 
 A 3D Temptations button. Tap it and your cat delivers one of 12 backhanded
-compliments in a female robot voice, with optional subtitles in a speech
+compliments in a female robot voice (no bleeps), with optional subtitles in a speech
 bubble. All 12 play before any line repeats. Available in English (default), Spanish,
 Italian and French, picked from the flag in the nav bar. A "How it works"
 sheet explains the button and how to treat your cat with Temptations.
@@ -30,6 +30,21 @@ fonts/
   fredoka-latin.woff2  the UI font, hosted here rather than on Google Fonts
   OFL.txt              its licence (SIL Open Font License)
 ```
+
+## Password
+
+The whole site sits behind a password screen, checked on Vercel's servers by
+`middleware.js` (Vercel Routing Middleware) before any file is sent. Without
+the password nobody gets the page, the code or the recordings; only the login
+screen's own font, logo and stylesheet are public.
+
+- The password is never stored as text, only as a hash. By default it is
+  checked against `BUILT_IN_HASH` in `middleware.js` (the launch password).
+- To change it, add a `SITE_PASSWORD` environment variable in Vercel
+  (Settings > Environment Variables, Production and Preview) and redeploy. If
+  set, it replaces the built-in one, and everyone has to enter the new one.
+- A correct password sets a cookie that lasts 30 days on that device.
+- Locally (`python3 -m http.server`) there is no middleware, so no password.
 
 ## Run it locally
 

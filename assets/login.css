@@ -1,0 +1,60 @@
+/* The password screen (served by middleware.js before the site loads). */
+@font-face {
+  font-family: "Fredoka";
+  src: url("/fonts/fredoka-latin.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+:root { --ink: #2B1A00; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: radial-gradient(circle at 50% 45%, #FFE45C 0%, #FFD21F 45%, #F5B400 100%);
+  background-color: #FFD21F;
+  color: var(--ink);
+  font-family: Fredoka, ui-rounded, system-ui, sans-serif;
+}
+.card {
+  width: min(380px, 100%);
+  padding: 28px 24px 24px;
+  background: #FFFDF6;
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  box-shadow: 6px 6px 0 var(--ink);
+  text-align: center;
+}
+.logo { display: block; width: 200px; max-width: 70%; height: auto; margin: 0 auto 12px; }
+h1 { margin: 0 0 18px; font-size: 26px; line-height: 1.15; }
+form { display: grid; gap: 12px; text-align: left; }
+label { font-weight: 700; font-size: 15px; }
+input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 18px;
+  color: var(--ink);
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+input:focus-visible, button:focus-visible { outline: 3px dashed var(--ink); outline-offset: 3px; }
+.wrong { margin: 0; font-weight: 700; color: #9E0F0B; }
+button {
+  min-height: 48px;
+  margin-top: 4px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 18px;
+  color: #FFFDF6;
+  background: #C8140F;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: pointer;
+}
+button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
