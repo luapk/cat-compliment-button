@@ -3,7 +3,7 @@
    the first time each one plays.
    Bump CACHE whenever any file changes (new recordings, new lines, new logo),
    or returning visitors keep the old copies. */
-const CACHE = "cat-button-v2";
+const CACHE = "cat-button-v3";
 
 const FILES = [
   "./",

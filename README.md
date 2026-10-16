@@ -3,7 +3,7 @@
 A 3D Temptations button. Tap it and your cat delivers one of 30 backhanded
 compliments in a robot voice, with optional subtitles in a speech bubble.
 All 30 play before any line repeats. Available in English (default), Spanish,
-Italian and French, picked with the flags under the button. A "How it works"
+Italian and French, picked from the flag in the nav bar. A "How it works"
 sheet explains the button and how to treat your cat with Temptations.
 
 It is a static site: plain HTML, CSS and JavaScript. No build step, no
@@ -16,7 +16,7 @@ data collected. After the first visit it works offline.
 index.html             the page
 styles.css             the 3D button, bubble and layout (pure CSS, no images)
 app.js                 all copy in 4 languages (COPY), shuffle, press, audio,
-                       subtitles switch, language flags, How it works sheet
+                       subtitles switch, language menu, How it works sheet
 sw.js                  offline cache (service worker)
 manifest.webmanifest   lets people "Add to Home Screen" with an icon
 vercel.json            security headers and caching for Vercel
@@ -108,9 +108,9 @@ the jokes and the treat guidance before launch.
 
 ## Settings people can change
 
-- **Subtitles** (top right) shows or hides the speech bubble. Screen readers get
+- **Subtitles** (nav bar) shows or hides the speech bubble. Screen readers get
   every line either way.
-- **Language** (flags under the button). English is the default.
+- **Language** (the flag in the nav bar; press it to choose). English is the default.
 - Both are remembered on that device only (browser storage); nothing is sent.
 
 ## Behaviour notes for testing

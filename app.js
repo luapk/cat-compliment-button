@@ -22,7 +22,7 @@
           "Tap the button. Your cat tells you exactly what it thinks of you.",
           "There are 30 compliments. You’ll hear every one before any repeats.",
           "Turn Subtitles on to read along, or off to just listen.",
-          "Pick your language with the flags at the bottom."
+          "Pick your language with the flag at the top."
         ],
         note: "Best viewed on iPad. Turn the sound up.",
         treatTitle: "How to treat your cat with Temptations",
@@ -84,7 +84,7 @@
           "Toca el botón. Tu gato te dirá exactamente lo que piensa de ti.",
           "Hay 30 cumplidos. Los oirás todos antes de que se repita ninguno.",
           "Activa los subtítulos para leerlos, o desactívalos para solo escuchar.",
-          "Elige el idioma con las banderas de abajo."
+          "Elige el idioma con la bandera de arriba."
         ],
         note: "Se ve mejor en iPad. Sube el volumen.",
         treatTitle: "Cómo premiar a tu gato con Temptations",
@@ -146,7 +146,7 @@
           "Tocca il pulsante. Il tuo gatto ti dirà esattamente cosa pensa di te.",
           "Ci sono 30 complimenti. Li sentirai tutti prima che uno si ripeta.",
           "Attiva i sottotitoli per leggere, o disattivali per ascoltare e basta.",
-          "Scegli la lingua con le bandierine in basso."
+          "Scegli la lingua con la bandierina in alto."
         ],
         note: "Ideale su iPad. Alza il volume.",
         treatTitle: "Come premiare il tuo gatto con Temptations",
@@ -208,7 +208,7 @@
           "Touche le bouton. Ton chat te dit exactement ce qu’il pense de toi.",
           "Il y a 30 compliments. Tu les entendras tous avant qu’un seul se répète.",
           "Active les sous-titres pour lire, ou coupe-les pour simplement écouter.",
-          "Choisis ta langue avec les drapeaux en bas."
+          "Choisis ta langue avec le drapeau en haut."
         ],
         note: "Idéal sur iPad. Monte le son.",
         treatTitle: "Comment récompenser ton chat avec Temptations",
@@ -260,7 +260,8 @@
   const stage = $("stage"), fit = $("fit"), press = $("press");
   const bubbleWrap = $("bubbleWrap"), bubble = $("bubble"), lineEl = $("line"), live = $("live");
   const ccBtn = $("cc"), howBtn = $("howBtn"), how = $("how");
-  const langBtns = [...document.querySelectorAll(".flag")];
+  const langBtn = $("langBtn"), langMenu = $("langMenu");
+  const langOpts = [...document.querySelectorAll(".lang-opt")];
 
   /* ---------- remembered settings (per device; fine if storage is blocked) ---------- */
   const store = {
@@ -426,11 +427,16 @@
     document.documentElement.lang = code;
     $("howLabel").textContent = c.ui.how;
     $("ccLabel").textContent = c.ui.subtitles;
+    ccBtn.setAttribute("aria-label", c.ui.subtitles);
     $("hintMain").textContent = c.ui.hint;
     $("hintSmall").textContent = c.ui.small;
     press.setAttribute("aria-label", c.ui.press);
-    $("langs").setAttribute("aria-label", c.ui.langs);
-    langBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === code)));
+    langMenu.setAttribute("aria-label", c.ui.langs);
+    langBtn.setAttribute("aria-label", `${c.ui.langs}: ${c.name}`);
+    langOpts.forEach(o => o.setAttribute("aria-checked", String(o.dataset.lang === code)));
+    // The bar shows only the chosen flag.
+    const chosen = langOpts.find(o => o.dataset.lang === code);
+    $("langFlag").replaceChildren(chosen.querySelector("svg").cloneNode(true));
     $("howTitle").textContent = c.guide.title;
     fillList($("howSteps"), c.guide.steps);
     $("howNote").textContent = c.guide.note;
@@ -442,11 +448,44 @@
     pickVoice();
     store.set("catbutton.lang", code);
   }
-  langBtns.forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+  /* ---------- language menu: the flag in the bar opens the four choices ---------- */
+  const menuOpen = () => !langMenu.hidden;
+  function openMenu() {
+    langMenu.hidden = false;
+    langBtn.setAttribute("aria-expanded", "true");
+    (langOpts.find(o => o.dataset.lang === lang) || langOpts[0]).focus();
+  }
+  function closeMenu(returnFocus) {
+    if (!menuOpen()) return;
+    langMenu.hidden = true;
+    langBtn.setAttribute("aria-expanded", "false");
+    if (returnFocus) langBtn.focus();
+  }
+  langBtn.addEventListener("click", () => (menuOpen() ? closeMenu(true) : openMenu()));
+  langOpts.forEach(o => o.addEventListener("click", () => {
+    setLang(o.dataset.lang);
+    closeMenu(true);
+  }));
+  langMenu.addEventListener("keydown", e => {
+    const i = langOpts.indexOf(document.activeElement);
+    const go = n => { e.preventDefault(); langOpts[(n + langOpts.length) % langOpts.length].focus(); };
+    if (e.key === "ArrowDown") go(i + 1);
+    else if (e.key === "ArrowUp") go(i - 1);
+    else if (e.key === "Home") go(0);
+    else if (e.key === "End") go(langOpts.length - 1);
+    else if (e.key === "Escape") { e.preventDefault(); closeMenu(true); }
+    else if (e.key === "Tab") closeMenu(false);
+  });
+  // A tap anywhere else closes it.
+  document.addEventListener("pointerdown", e => {
+    if (menuOpen() && !e.target.closest(".lang")) closeMenu(false);
+  });
   ccBtn.addEventListener("click", () => setSubs(ccBtn.getAttribute("aria-checked") !== "true"));
 
   /* ---------- How it works ---------- */
   function openHow() {
+    closeMenu(false);
     hush();
     if (how.showModal) how.showModal(); else how.setAttribute("open", "");
   }
@@ -478,13 +517,19 @@
     speak(i);
   }
 
-  press.addEventListener("pointerdown", e => { if (e.button === 0) down(); });
+  // While the language menu is open, a tap on the button only closes the menu.
+  let swallow = false;
+  press.addEventListener("pointerdown", e => {
+    if (menuOpen()) { swallow = true; return; }
+    if (e.button === 0) down();
+  });
   ["pointerup", "pointerleave", "pointercancel"].forEach(ev => press.addEventListener(ev, up));
   press.addEventListener("keydown", e => {
     if ((e.key === " " || e.key === "Enter") && !e.repeat) down();
   });
   press.addEventListener("keyup", e => { if (e.key === " " || e.key === "Enter") up(); });
   press.addEventListener("click", () => {
+    if (swallow) { swallow = false; return; }
     // Clicks without a pointer press (keyboard, assistive tech) still get the full squash.
     if (!stage.classList.contains("is-down") && performance.now() - downAt > 400) { down(); up(); }
     fire();

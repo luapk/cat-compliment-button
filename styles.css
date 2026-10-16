@@ -189,53 +189,62 @@ body {
   margin-top: 2px;
 }
 
-/* ---------- top bar: How it works (left), Subtitles switch (right) ---------- */
-.topbar {
+/* ---------- nav bar: How it works, Subtitles switch, language menu ---------- */
+.navbar {
   position: fixed;
   top: max(12px, env(safe-area-inset-top));
-  left: 16px;
-  right: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  max-width: calc(100vw - 24px);
+  padding: 4px;
+  background: #FFFDF6;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--ink);
 }
-.pill {
+.nav-item {
   font: inherit;
   font-weight: 700;
   font-size: 15px;
   color: var(--ink);
-  background: #FFFDF6;
-  border: 3px solid var(--ink);
+  background: transparent;
+  border: 0;
   border-radius: 999px;
-  padding: 7px 14px 7px 8px;
-  min-height: 44px;
-  box-shadow: 3px 3px 0 var(--ink);
+  min-height: 40px;
+  padding: 6px 12px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.pill:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
-.pill:focus-visible, .flag:focus-visible, .how-close:focus-visible {
+.nav-item:hover, .nav-item[aria-expanded="true"] { background: #FFE680; }
+.nav-item:active { background: #FFD21F; }
+.nav-item:focus-visible, .lang-opt:focus-visible, .how-close:focus-visible {
   outline: 3px dashed var(--ink);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
+.nav-sep { width: 2px; height: 22px; border-radius: 1px; background: var(--ink); opacity: .2; flex: none; }
 .q {
-  width: 24px; height: 24px;
+  width: 22px; height: 22px;
   border-radius: 50%;
   background: var(--ink);
   color: #FFD21F;
   display: grid;
   place-items: center;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1;
+  flex: none;
 }
 .switch .track {
   position: relative;
-  width: 40px; height: 24px;
+  width: 38px; height: 22px;
+  flex: none;
   border-radius: 999px;
   border: 2px solid var(--ink);
   background: #FFFDF6;
@@ -244,39 +253,73 @@ body {
 .switch .thumb {
   position: absolute;
   top: 2px; left: 2px;
-  width: 16px; height: 16px;
+  width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--ink);
   transition: transform .15s, background .15s;
 }
 .switch[aria-checked="true"] .track { background: var(--ink); }
 .switch[aria-checked="true"] .thumb { transform: translateX(16px); background: #FFD21F; }
+.switch .short { display: none; }
 
-/* ---------- language flags ---------- */
-.langs {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 6px;
-}
-.flag {
-  width: 44px; height: 36px;
-  padding: 0;
-  display: grid;
-  place-items: center;
-  background: transparent;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.flag svg {
+/* language: one flag in the bar, the choices drop down when it is pressed */
+.lang { position: relative; }
+.lang-btn { gap: 6px; padding: 6px 10px; }
+.flagbox { display: block; flex: none; line-height: 0; }
+.flagbox svg {
   display: block;
   width: 26px; height: 17px;
   border-radius: 3px;
   box-shadow: 0 0 0 1.5px var(--ink);
 }
-.flag[aria-pressed="true"] { opacity: 1; border-color: var(--ink); background: rgba(255, 253, 246, .6); }
+.chev { width: 12px; height: 8px; transition: transform .15s; }
+.lang-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: -6px;
+  min-width: 180px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: #FFFDF6;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 var(--ink);
+  animation: drop .14s ease-out;
+}
+.lang-menu[hidden] { display: none; }
+@keyframes drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.lang-opt {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+.lang-opt:hover { background: #FFE680; }
+.lang-opt[aria-checked="true"] { background: #FFD21F; }
+.lang-name { flex: 1; }
+.tick { visibility: hidden; font-size: 16px; }
+.lang-opt[aria-checked="true"] .tick { visibility: visible; }
+
+/* Narrow phones: the subtitles switch reads "CC" so the bar fits on one line. */
+@media (max-width: 479px) {
+  .nav-item { font-size: 14px; padding: 6px 9px; gap: 6px; }
+  .q { display: none; }
+  .switch .long { display: none; }
+  .switch .short { display: inline; }
+}
 
 /* ---------- How it works sheet ---------- */
 dialog.how {
@@ -348,6 +391,6 @@ dialog.how::backdrop { background: rgba(43, 26, 0, .5); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bubble, .cap-side, .cap-top, .seat, .switch .track, .switch .thumb { transition: none; animation: none !important; }
+  .bubble, .cap-side, .cap-top, .seat, .switch .track, .switch .thumb, .chev, .lang-menu { transition: none; animation: none !important; }
   .caret { animation: none; }
 }

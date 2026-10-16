@@ -15,16 +15,47 @@
 </head>
 <body>
 
-  <header class="topbar">
-    <button class="pill" id="howBtn" type="button" aria-haspopup="dialog">
+  <nav class="navbar" aria-label="Menu">
+    <button class="nav-item" id="howBtn" type="button" aria-haspopup="dialog">
       <span class="q" aria-hidden="true">?</span>
       <span id="howLabel">How it works</span>
     </button>
-    <button class="pill switch" id="cc" type="button" role="switch" aria-checked="true">
+    <span class="nav-sep" aria-hidden="true"></span>
+    <button class="nav-item switch" id="cc" type="button" role="switch" aria-checked="true" aria-label="Subtitles">
       <span class="track" aria-hidden="true"><span class="thumb"></span></span>
-      <span id="ccLabel">Subtitles</span>
+      <span class="long" id="ccLabel" aria-hidden="true">Subtitles</span>
+      <span class="short" aria-hidden="true">CC</span>
     </button>
-  </header>
+    <span class="nav-sep" aria-hidden="true"></span>
+    <div class="lang">
+      <button class="nav-item lang-btn" id="langBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language: English">
+        <span class="flagbox" id="langFlag"><svg viewBox="0 0 60 30" aria-hidden="true"><path d="M0,0 h60 v30 h-60 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="2"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></svg></span>
+        <svg class="chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1.5 1.5 6 6l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <ul class="lang-menu" id="langMenu" role="menu" aria-label="Language" hidden>
+        <li role="none">
+          <button class="lang-opt" type="button" role="menuitemradio" aria-checked="true" data-lang="en" lang="en">
+            <span class="flagbox"><svg viewBox="0 0 60 30" aria-hidden="true"><path d="M0,0 h60 v30 h-60 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="2"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></svg></span><span class="lang-name">English</span><span class="tick" aria-hidden="true">&#10003;</span>
+          </button>
+        </li>
+        <li role="none">
+          <button class="lang-opt" type="button" role="menuitemradio" aria-checked="false" data-lang="es" lang="es">
+            <span class="flagbox"><svg viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#AA151B"/><rect y="7.5" width="60" height="15" fill="#F1BF00"/></svg></span><span class="lang-name">Español</span><span class="tick" aria-hidden="true">&#10003;</span>
+          </button>
+        </li>
+        <li role="none">
+          <button class="lang-opt" type="button" role="menuitemradio" aria-checked="false" data-lang="it" lang="it">
+            <span class="flagbox"><svg viewBox="0 0 60 30" aria-hidden="true"><rect width="20" height="30" fill="#009246"/><rect x="20" width="20" height="30" fill="#F1F2F1"/><rect x="40" width="20" height="30" fill="#CE2B37"/></svg></span><span class="lang-name">Italiano</span><span class="tick" aria-hidden="true">&#10003;</span>
+          </button>
+        </li>
+        <li role="none">
+          <button class="lang-opt" type="button" role="menuitemradio" aria-checked="false" data-lang="fr" lang="fr">
+            <span class="flagbox"><svg viewBox="0 0 60 30" aria-hidden="true"><rect width="20" height="30" fill="#002654"/><rect x="20" width="20" height="30" fill="#F1F2F1"/><rect x="40" width="20" height="30" fill="#CE1126"/></svg></span><span class="lang-name">Français</span><span class="tick" aria-hidden="true">&#10003;</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <div class="bubble-wrap" id="bubbleWrap" aria-hidden="true">
     <div class="bubble idle" id="bubble">
@@ -56,39 +87,6 @@
   <div class="hint">
     <span id="hintMain">Tap for a compliment*</span>
     <small id="hintSmall">*compliment not guaranteed. Sound up.</small>
-  </div>
-
-  <div class="langs" id="langs" role="group" aria-label="Language">
-    <button class="flag" type="button" data-lang="en" aria-pressed="true" aria-label="English" title="English">
-      <svg viewBox="0 0 60 30" aria-hidden="true">
-        <clipPath id="ukClip"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
-        <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
-        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
-        <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#ukClip)" stroke="#C8102E" stroke-width="4"/>
-        <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
-        <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
-      </svg>
-    </button>
-    <button class="flag" type="button" data-lang="es" aria-pressed="false" aria-label="Español" title="Español">
-      <svg viewBox="0 0 60 30" aria-hidden="true">
-        <rect width="60" height="30" fill="#AA151B"/>
-        <rect y="7.5" width="60" height="15" fill="#F1BF00"/>
-      </svg>
-    </button>
-    <button class="flag" type="button" data-lang="it" aria-pressed="false" aria-label="Italiano" title="Italiano">
-      <svg viewBox="0 0 60 30" aria-hidden="true">
-        <rect width="20" height="30" fill="#009246"/>
-        <rect x="20" width="20" height="30" fill="#F1F2F1"/>
-        <rect x="40" width="20" height="30" fill="#CE2B37"/>
-      </svg>
-    </button>
-    <button class="flag" type="button" data-lang="fr" aria-pressed="false" aria-label="Français" title="Français">
-      <svg viewBox="0 0 60 30" aria-hidden="true">
-        <rect width="20" height="30" fill="#002654"/>
-        <rect x="20" width="20" height="30" fill="#F1F2F1"/>
-        <rect x="40" width="20" height="30" fill="#CE1126"/>
-      </svg>
-    </button>
   </div>
 
   <dialog class="how" id="how" aria-labelledby="howTitle">
