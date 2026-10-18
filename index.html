@@ -75,9 +75,10 @@
       <span class="abs seat"></span>
       <span class="abs cap-side"></span>
       <span class="abs cap-top">
-        <svg viewBox="0 0 240 100" aria-hidden="true">
-          <!-- the supplied Temptations logo, squashed vertically to sit flat on the tilted cap -->
-          <image x="20" y="14" width="200" height="72" preserveAspectRatio="none" href="assets/temptations-logo.png"/>
+        <svg viewBox="0 0 240 240" preserveAspectRatio="none" aria-hidden="true">
+          <!-- the supplied logo, laid flat on the cap's round top; the svg stretches
+               with the ellipse, so the logo foreshortens with the viewing angle -->
+          <image x="25" y="69" width="190" height="102" href="assets/temptations-logo.png"/>
         </svg>
       </span>
       <button class="press" id="press" aria-label="Press for a compliment from your cat"></button>
@@ -87,6 +88,12 @@
   <div class="hint">
     <span id="hintMain">Tap for a compliment*</span>
     <small id="hintSmall">*compliment not guaranteed. Sound up.</small>
+  </div>
+
+  <div class="view">
+    <span class="view-end" id="viewTop" aria-hidden="true">Top</span>
+    <input type="range" id="view" min="0" max="45" step="1" value="45" aria-label="View angle">
+    <span class="view-end" aria-hidden="true">45°</span>
   </div>
 
   <dialog class="how" id="how" aria-labelledby="howTitle">

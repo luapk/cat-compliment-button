@@ -15,7 +15,9 @@
         small: "*compliment not guaranteed. Sound up.",
         press: "Press for a compliment from your cat",
         langs: "Language",
-        close: "Close"
+        close: "Close",
+        view: "View angle",
+        top: "Top"
       },
       guide: {
         title: "How it works",
@@ -23,6 +25,7 @@
           "Tap the button. Your cat tells you exactly what it thinks of you.",
           "There are {n} compliments. You’ll hear every one before any repeats.",
           "Turn Subtitles on to read along, or off to just listen.",
+          "Use the slider under the button to look from the top or at an angle.",
           "Pick your language with the flag at the top."
         ],
         note: "Best viewed on iPad. Turn the sound up.",
@@ -61,7 +64,9 @@
         small: "*cumplido no garantizado. Sube el volumen.",
         press: "Pulsa para recibir un cumplido de tu gato",
         langs: "Idioma",
-        close: "Cerrar"
+        close: "Cerrar",
+        view: "Ángulo de vista",
+        top: "Arriba"
       },
       guide: {
         title: "Cómo funciona",
@@ -69,6 +74,7 @@
           "Toca el botón. Tu gato te dirá exactamente lo que piensa de ti.",
           "Hay {n} cumplidos. Los oirás todos antes de que se repita ninguno.",
           "Activa los subtítulos para leerlos, o desactívalos para solo escuchar.",
+          "Usa el control bajo el botón para verlo desde arriba o en ángulo.",
           "Elige el idioma con la bandera de arriba."
         ],
         note: "Se ve mejor en iPad. Sube el volumen.",
@@ -107,7 +113,9 @@
         small: "*complimento non garantito. Alza il volume.",
         press: "Premi per un complimento dal tuo gatto",
         langs: "Lingua",
-        close: "Chiudi"
+        close: "Chiudi",
+        view: "Angolo di vista",
+        top: "Dall’alto"
       },
       guide: {
         title: "Come funziona",
@@ -115,6 +123,7 @@
           "Tocca il pulsante. Il tuo gatto ti dirà esattamente cosa pensa di te.",
           "Ci sono {n} complimenti. Li sentirai tutti prima che uno si ripeta.",
           "Attiva i sottotitoli per leggere, o disattivali per ascoltare e basta.",
+          "Usa il cursore sotto il pulsante per guardarlo dall’alto o di lato.",
           "Scegli la lingua con la bandierina in alto."
         ],
         note: "Ideale su iPad. Alza il volume.",
@@ -153,7 +162,9 @@
         small: "*compliment non garanti. Monte le son.",
         press: "Appuie pour un compliment de ton chat",
         langs: "Langue",
-        close: "Fermer"
+        close: "Fermer",
+        view: "Angle de vue",
+        top: "Dessus"
       },
       guide: {
         title: "Comment ça marche",
@@ -161,6 +172,7 @@
           "Touche le bouton. Ton chat te dit exactement ce qu’il pense de toi.",
           "Il y a {n} compliments. Tu les entendras tous avant qu’un seul se répète.",
           "Active les sous-titres pour lire, ou coupe-les pour simplement écouter.",
+          "Utilise le curseur sous le bouton pour le voir de dessus ou en biais.",
           "Choisis ta langue avec le drapeau en haut."
         ],
         note: "Idéal sur iPad. Monte le son.",
@@ -211,7 +223,7 @@
   /* ---------- fit the 440x340 stage to the screen (bigger on iPad) ---------- */
   function resize() {
     const w = window.innerWidth - 32;
-    const h = window.innerHeight - 340;
+    const h = window.innerHeight - 380;
     const k = Math.max(0.5, Math.min(1.7, w / 440, h / 340));
     stage.style.transform = `scale(${k})`;
     fit.style.width = `${440 * k}px`;
@@ -219,6 +231,24 @@
   }
   window.addEventListener("resize", resize);
   resize();
+
+  /* ---------- viewing angle: slider left = straight down, right = 45 degrees ---------- */
+  const viewInput = $("view");
+  const angle = () => 90 - Number(viewInput.value);
+  const viewText = () => (angle() === 90 ? COPY[lang].ui.top : `${angle()}°`);
+  function setView(fromSlider) {
+    const rad = angle() * Math.PI / 180;
+    stage.style.setProperty("--s", Math.sin(rad).toFixed(4));
+    stage.style.setProperty("--c", Math.cos(rad).toFixed(4));
+    viewInput.setAttribute("aria-valuetext", viewText());
+    if (fromSlider) store.set("catbutton.view", viewInput.value);
+  }
+  {
+    const saved = Number(store.get("catbutton.view"));
+    if (store.get("catbutton.view") !== null && saved >= 0 && saved <= 45) viewInput.value = String(saved);
+  }
+  viewInput.addEventListener("input", () => setView(true));
+  setView(false);
 
   /* ---------- shuffle bag: every line once before any repeats ---------- */
   let bag = [], last = -1;
@@ -377,6 +407,9 @@
     $("treatTitle").textContent = c.guide.treatTitle;
     fillList($("treatList"), c.guide.treats);
     $("howClose").setAttribute("aria-label", c.ui.close);
+    $("viewTop").textContent = c.ui.top;
+    viewInput.setAttribute("aria-label", c.ui.view);
+    viewInput.setAttribute("aria-valuetext", viewText());
     hush();
     clearBubble();
     pickVoice();

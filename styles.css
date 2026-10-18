@@ -107,17 +107,34 @@ body {
 
 .abs { position: absolute; display: block; pointer-events: none; }
 
+/* The button is two cylinders drawn for a viewing angle. app.js sets --s and
+   --c, the sine and cosine of the angle above the table: 90deg (s 1, c 0) looks
+   straight down, so the tops are circles and the sides vanish; 45deg shows tops
+   squashed to 71% and the sides at 71% of their height. Everything below is
+   derived from those two numbers and the true sizes here. */
+.stage {
+  --s: .7071; --c: .7071;
+  --y0: 165px;               /* centre of the base's top face, where the cap sits */
+  --r1: 170px; --h1: 70px;   /* red base: radius, height */
+  --r2: 120px; --h2: 64px;   /* yellow cap: radius, height */
+}
+.stage.is-down { --h2: 26px; }
+
 .ground {
-  left: 40px; top: 262px; width: 360px; height: 70px;
+  left: 30px; width: 380px;
+  top: calc(var(--y0) + var(--h1) * var(--c) - var(--r1) * var(--s) - 4px);
+  height: calc(2 * var(--r1) * var(--s) + 28px);
+  transform: translateY(calc(8px + 6px * var(--c)));
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(90,40,0,.45), rgba(90,40,0,0));
   filter: blur(4px);
 }
 
-/* base: red cylinder, W 340, ry 70, depth 60 */
 .base-side {
-  left: 50px; top: 110px; width: 340px; height: 200px;
-  border-radius: 50% / 70px;
+  left: 50px; width: 340px;
+  top: calc(var(--y0) - var(--r1) * var(--s));
+  height: calc(2 * var(--r1) * var(--s) + var(--h1) * var(--c));
+  border-radius: 50% / calc(var(--r1) * var(--s));
   background: linear-gradient(90deg, #7a0505 0%, #c8140f 12%, #ee2a1f 30%, #ff5141 40%, #e8231a 55%, #c0120d 80%, #6f0404 100%);
   overflow: hidden;
 }
@@ -126,14 +143,23 @@ body {
   background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(60,0,0,.35) 100%);
 }
 .gloss {
-  left: 92px; top: 222px; width: 70px; height: 34px;
+  left: 92px; width: 70px; height: 34px;
+  top: calc(var(--y0) + var(--r1) * var(--s) * .55 + var(--h1) * var(--c) * .3 - 17px);
+  opacity: calc(var(--c) * 1.4);
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(255,255,255,.75), rgba(255,255,255,0));
   transform: rotate(-12deg);
 }
-.gloss.two { left: 300px; top: 236px; width: 40px; height: 18px; opacity: .45; transform: rotate(14deg); }
+.gloss.two {
+  left: 300px; width: 40px; height: 18px;
+  top: calc(var(--y0) + var(--r1) * var(--s) * .7 + var(--h1) * var(--c) * .3 - 9px);
+  opacity: calc(var(--c) * .6);
+  transform: rotate(14deg);
+}
 .base-top {
-  left: 50px; top: 110px; width: 340px; height: 140px;
+  left: 50px; width: 340px;
+  top: calc(var(--y0) - var(--r1) * var(--s));
+  height: calc(2 * var(--r1) * var(--s));
   border-radius: 50%;
   background: radial-gradient(ellipse 70% 70% at 42% 30%, #ff6a55 0%, #f0281d 45%, #cc150f 80%, #a50d09 100%);
   box-shadow:
@@ -141,38 +167,47 @@ body {
     inset 0 -16px 22px rgba(90,0,0,.35);
 }
 .seat {
-  left: 88px; top: 138px; width: 264px; height: 104px;
+  left: 88px; width: 264px;
+  top: calc(var(--y0) - 108px * var(--s) + 3px);
+  height: calc(216px * var(--s));
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(70,0,0,.55) 70%, rgba(70,0,0,0));
   filter: blur(5px);
   transition: transform .09s ease-out, opacity .09s;
 }
 
-/* cap: yellow cylinder, W 240, ry 50, depth 60 (24 pressed). Bottom face centre sits at y 180. */
 .cap-side {
-  left: 100px; top: 70px; width: 240px; height: 160px;
-  border-radius: 50% / 50px;
+  left: 100px; width: 240px;
+  top: calc(var(--y0) - var(--h2) * var(--c) - var(--r2) * var(--s));
+  height: calc(2 * var(--r2) * var(--s) + var(--h2) * var(--c));
+  border-radius: 50% / calc(var(--r2) * var(--s));
+  /* scales about the cap's top face, so it moves with .cap-top when pressed */
+  transform-origin: 50% calc(var(--r2) * var(--s));
   background: linear-gradient(90deg, #b87a00 0%, #e3a200 10%, #ffc61a 28%, #ffe15a 40%, #ffcf26 55%, #eba800 80%, #a86c00 100%);
   overflow: hidden;
-  transition: top .09s ease-out, height .09s ease-out;
+  transition: top .09s ease-out, height .09s ease-out, transform .09s ease-out;
 }
 .cap-side::after {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(140,70,0,.3) 100%);
 }
 .cap-top {
-  left: 100px; top: 70px; width: 240px; height: 100px;
+  left: 100px; width: 240px;
+  top: calc(var(--y0) - var(--h2) * var(--c) - var(--r2) * var(--s));
+  height: calc(2 * var(--r2) * var(--s));
   border-radius: 50%;
   background: radial-gradient(ellipse 75% 80% at 45% 35%, #fff07a 0%, #ffd928 40%, #f6bd00 85%, #e2a400 100%);
   box-shadow:
     inset 0 3px 3px rgba(255,255,255,.65),
     inset 0 -5px 8px rgba(150,90,0,.45);
-  transition: top .09s ease-out;
+  transition: top .09s ease-out, transform .09s ease-out, filter .09s;
 }
 .cap-top svg { width: 100%; height: 100%; display: block; }
 
-.is-down .cap-side { top: 106px; height: 124px; }
-.is-down .cap-top  { top: 106px; }
+/* Pressed: the cap drops (shorter --h2), and also shrinks a touch and darkens,
+   which is what still shows the press when looking straight down. */
+.is-down .cap-top  { transform: scale(.975); filter: brightness(.94); }
+.is-down .cap-side { transform: scale(.975); }
 .is-down .seat     { transform: scale(.96); opacity: .8; }
 
 /* ---------- footer copy ---------- */
@@ -390,6 +425,27 @@ dialog.how::backdrop { background: rgba(43, 26, 0, .5); }
   white-space: nowrap;
   border: 0;
 }
+
+/* ---------- view angle slider (under the hint) ---------- */
+.view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.view input {
+  width: 160px;
+  height: 32px;
+  margin: 0;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+.view input:focus-visible { outline: 3px dashed var(--ink); outline-offset: 4px; border-radius: 6px; }
+.view-end { min-width: 4ch; text-align: center; }
 
 @media (prefers-reduced-motion: reduce) {
   .bubble, .cap-side, .cap-top, .seat, .switch .track, .switch .thumb, .chev, .lang-menu { transition: none; animation: none !important; }

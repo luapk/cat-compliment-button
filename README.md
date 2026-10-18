@@ -130,7 +130,10 @@ the jokes and the treat guidance before launch.
 - **Subtitles** (nav bar) shows or hides the speech bubble. Screen readers get
   every line either way.
 - **Language** (the flag in the nav bar; press it to choose). English is the default.
-- Both are remembered on that device only (browser storage); nothing is sent.
+- **View angle** (slider under the button), from straight down to 45 degrees.
+  The button is drawn from its true sizes and the angle (the `--s` and `--c`
+  values in `styles.css`), so any angle in between is correct too.
+- All three are remembered on that device only (browser storage); nothing is sent.
 
 ## Behaviour notes for testing
 
