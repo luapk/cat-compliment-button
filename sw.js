@@ -7,7 +7,7 @@
      addresses and are never confused with old ones.
    Bump CACHE on every release, and AUDIO_VERSION (here and in app.js) whenever
    the clips change. */
-const CACHE = "cat-button-v8";
+const CACHE = "cat-button-v9";
 const AUDIO_VERSION = "4";
 
 const SHELL = [
@@ -15,6 +15,8 @@ const SHELL = [
   "index.html",
   "styles.css",
   "app.js",
+  "scene.js",
+  "vendor/three.module.min.js",
   "manifest.webmanifest",
   "fonts/fredoka-latin.woff2",
   "assets/temptations-logo.png",

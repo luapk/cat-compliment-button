@@ -14,7 +14,14 @@ data collected. After the first visit it works offline.
 
 ```
 index.html             the page
-styles.css             the 3D button, bubble and layout (pure CSS, no images)
+scene.js               the button in 3D (three.js): modelled shapes, studio lighting,
+                       glossy coated plastic, soft shadows; camera follows the
+                       view slider and the cap sinks on press
+vendor/                three.js (MIT licence, see vendor/three-LICENSE.txt), served
+                       from this site because the security policy allows only
+                       this site's own scripts
+styles.css             layout, bubble, nav, and a CSS drawing of the button that
+                       shows only if a device cannot do 3D (WebGL)
 app.js                 all copy in 4 languages (COPY), shuffle, press, audio,
                        subtitles switch, language menu, How it works sheet
 sw.js                  offline cache (service worker)
@@ -131,8 +138,7 @@ the jokes and the treat guidance before launch.
   every line either way.
 - **Language** (the flag in the nav bar; press it to choose). English is the default.
 - **View angle** (slider under the button), from straight down to 45 degrees.
-  The button is drawn from its true sizes and the angle (the `--s` and `--c`
-  values in `styles.css`), so any angle in between is correct too.
+  It moves the 3D camera; the CSS fallback drawing follows the same angle.
 - All three are remembered on that device only (browser storage); nothing is sent.
 
 ## Behaviour notes for testing

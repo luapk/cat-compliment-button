@@ -107,6 +107,12 @@ body {
 
 .abs { position: absolute; display: block; pointer-events: none; }
 
+/* 3D version (scene.js): the canvas sits behind the stage, which keeps the
+   real <button>; the CSS drawing is hidden only once the 3D one has rendered. */
+.gl-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.fit > .stage { z-index: 1; }
+.gl .stage .abs { visibility: hidden; }
+
 /* The button is two cylinders drawn for a viewing angle. app.js sets --s and
    --c, the sine and cosine of the angle above the table: 90deg (s 1, c 0) looks
    straight down, so the tops are circles and the sides vanish; 45deg shows tops
