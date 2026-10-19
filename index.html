@@ -56,6 +56,21 @@
         </li>
       </ul>
     </div>
+    <span class="nav-sep" aria-hidden="true"></span>
+    <div class="settings">
+      <button class="nav-item settings-btn" id="setBtn" type="button" aria-expanded="false" aria-controls="setPanel" aria-label="Settings" title="Settings">
+        <svg class="cog" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6a.5.5 0 0 0 .1-.6l-1.9-3.3a.5.5 0 0 0-.6-.2l-2.4 1a7.3 7.3 0 0 0-1.7-1L14.5 2.8a.5.5 0 0 0-.5-.4h-3.8a.5.5 0 0 0-.5.4L9.3 5.3a7.3 7.3 0 0 0-1.7 1l-2.4-1a.5.5 0 0 0-.6.2L2.7 8.8a.5.5 0 0 0 .1.6l2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l1.9 3.3c.1.2.4.3.6.2l2.4-1c.5.4 1.1.7 1.7 1l.4 2.5c0 .2.2.4.5.4h3.8c.2 0 .4-.2.5-.4l.4-2.5c.6-.3 1.2-.6 1.7-1l2.4 1c.2.1.5 0 .6-.2l1.9-3.3a.5.5 0 0 0-.1-.6l-2-1.6ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
+      </button>
+      <div class="set-panel" id="setPanel" role="group" aria-labelledby="setTitle" hidden>
+        <p class="set-title" id="setTitle">Settings</p>
+        <label class="set-label" for="view" id="viewLabel">View angle</label>
+        <div class="view">
+          <span class="view-end" id="viewTop" aria-hidden="true">Top</span>
+          <input type="range" id="view" min="0" max="45" step="1" value="45">
+          <span class="view-end" aria-hidden="true">45°</span>
+        </div>
+      </div>
+    </div>
   </nav>
 
   <div class="bubble-wrap" id="bubbleWrap" aria-hidden="true">
@@ -89,12 +104,6 @@
   <div class="hint">
     <span id="hintMain">Tap for a compliment*</span>
     <small id="hintSmall">*compliment not guaranteed. Sound up.</small>
-  </div>
-
-  <div class="view">
-    <span class="view-end" id="viewTop" aria-hidden="true">Top</span>
-    <input type="range" id="view" min="0" max="45" step="1" value="45" aria-label="View angle">
-    <span class="view-end" aria-hidden="true">45°</span>
   </div>
 
   <dialog class="how" id="how" aria-labelledby="howTitle">

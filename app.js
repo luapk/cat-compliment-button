@@ -17,6 +17,7 @@
         langs: "Language",
         close: "Close",
         view: "View angle",
+        settings: "Settings",
         top: "Top"
       },
       guide: {
@@ -25,7 +26,7 @@
           "Tap the button. Your cat tells you exactly what it thinks of you.",
           "There are {n} compliments. You’ll hear every one before any repeats.",
           "Turn Subtitles on to read along, or off to just listen.",
-          "Use the slider under the button to look from the top or at an angle.",
+          "Change the view angle in Settings, the cog at the top.",
           "Pick your language with the flag at the top."
         ],
         note: "Best viewed on iPad. Turn the sound up.",
@@ -66,6 +67,7 @@
         langs: "Idioma",
         close: "Cerrar",
         view: "Ángulo de vista",
+        settings: "Ajustes",
         top: "Arriba"
       },
       guide: {
@@ -74,7 +76,7 @@
           "Toca el botón. Tu gato te dirá exactamente lo que piensa de ti.",
           "Hay {n} cumplidos. Los oirás todos antes de que se repita ninguno.",
           "Activa los subtítulos para leerlos, o desactívalos para solo escuchar.",
-          "Usa el control bajo el botón para verlo desde arriba o en ángulo.",
+          "Cambia el ángulo de vista en Ajustes, el engranaje de arriba.",
           "Elige el idioma con la bandera de arriba."
         ],
         note: "Se ve mejor en iPad. Sube el volumen.",
@@ -115,6 +117,7 @@
         langs: "Lingua",
         close: "Chiudi",
         view: "Angolo di vista",
+        settings: "Impostazioni",
         top: "Dall’alto"
       },
       guide: {
@@ -123,7 +126,7 @@
           "Tocca il pulsante. Il tuo gatto ti dirà esattamente cosa pensa di te.",
           "Ci sono {n} complimenti. Li sentirai tutti prima che uno si ripeta.",
           "Attiva i sottotitoli per leggere, o disattivali per ascoltare e basta.",
-          "Usa il cursore sotto il pulsante per guardarlo dall’alto o di lato.",
+          "Cambia l’angolo di vista in Impostazioni, l’ingranaggio in alto.",
           "Scegli la lingua con la bandierina in alto."
         ],
         note: "Ideale su iPad. Alza il volume.",
@@ -164,6 +167,7 @@
         langs: "Langue",
         close: "Fermer",
         view: "Angle de vue",
+        settings: "Réglages",
         top: "Dessus"
       },
       guide: {
@@ -172,7 +176,7 @@
           "Touche le bouton. Ton chat te dit exactement ce qu’il pense de toi.",
           "Il y a {n} compliments. Tu les entendras tous avant qu’un seul se répète.",
           "Active les sous-titres pour lire, ou coupe-les pour simplement écouter.",
-          "Utilise le curseur sous le bouton pour le voir de dessus ou en biais.",
+          "Change l’angle de vue dans Réglages, la roue dentée en haut.",
           "Choisis ta langue avec le drapeau en haut."
         ],
         note: "Idéal sur iPad. Monte le son.",
@@ -223,7 +227,7 @@
   /* ---------- fit the 440x340 stage to the screen (bigger on iPad) ---------- */
   function resize() {
     const w = window.innerWidth - 32;
-    const h = window.innerHeight - 380;
+    const h = window.innerHeight - 340;
     const k = Math.max(0.5, Math.min(1.7, w / 440, h / 340));
     stage.style.transform = `scale(${k})`;
     fit.style.width = `${440 * k}px`;
@@ -408,7 +412,10 @@
     fillList($("treatList"), c.guide.treats);
     $("howClose").setAttribute("aria-label", c.ui.close);
     $("viewTop").textContent = c.ui.top;
-    viewInput.setAttribute("aria-label", c.ui.view);
+    $("viewLabel").textContent = c.ui.view;
+    $("setTitle").textContent = c.ui.settings;
+    setBtn.setAttribute("aria-label", c.ui.settings);
+    setBtn.title = c.ui.settings;
     viewInput.setAttribute("aria-valuetext", viewText());
     hush();
     clearBubble();
@@ -416,9 +423,33 @@
     store.set("catbutton.lang", code);
   }
 
+  /* ---------- settings panel: the cog opens it ---------- */
+  const setBtn = $("setBtn"), setPanel = $("setPanel");
+  const settingsOpen = () => !setPanel.hidden;
+  function openSettings() {
+    closeMenu(false);
+    setPanel.hidden = false;
+    setBtn.setAttribute("aria-expanded", "true");
+    viewInput.focus();
+  }
+  function closeSettings(returnFocus) {
+    if (!settingsOpen()) return;
+    setPanel.hidden = true;
+    setBtn.setAttribute("aria-expanded", "false");
+    if (returnFocus) setBtn.focus();
+  }
+  setBtn.addEventListener("click", () => (settingsOpen() ? closeSettings(true) : openSettings()));
+  setPanel.addEventListener("keydown", e => {
+    if (e.key === "Escape") { e.preventDefault(); closeSettings(true); }
+  });
+  document.addEventListener("pointerdown", e => {
+    if (settingsOpen() && !e.target.closest(".settings")) closeSettings(false);
+  });
+
   /* ---------- language menu: the flag in the bar opens the four choices ---------- */
   const menuOpen = () => !langMenu.hidden;
   function openMenu() {
+    closeSettings(false);
     langMenu.hidden = false;
     langBtn.setAttribute("aria-expanded", "true");
     (langOpts.find(o => o.dataset.lang === lang) || langOpts[0]).focus();
@@ -453,6 +484,7 @@
   /* ---------- How it works ---------- */
   function openHow() {
     closeMenu(false);
+    closeSettings(false);
     hush();
     if (how.showModal) how.showModal(); else how.setAttribute("open", "");
   }
@@ -484,10 +516,10 @@
     speak(i);
   }
 
-  // While the language menu is open, a tap on the button only closes the menu.
+  // While a menu or the settings panel is open, a tap on the button only closes it.
   let swallow = false;
   press.addEventListener("pointerdown", e => {
-    if (menuOpen()) { swallow = true; return; }
+    if (menuOpen() || settingsOpen()) { swallow = true; return; }
     if (e.button === 0) down();
   });
   ["pointerup", "pointerleave", "pointercancel"].forEach(ev => press.addEventListener(ev, up));
