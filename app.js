@@ -11,8 +11,8 @@
       ui: {
         how: "How it works",
         subtitles: "Subtitles",
-        hint: "Tap for a compliment*",
-        small: "*compliment not guaranteed. Sound up.",
+        hint: "Tap for a compliment",
+        small: "Sound up.",
         press: "Press for a compliment from your cat",
         langs: "Language",
         close: "Close",
@@ -61,8 +61,8 @@
       ui: {
         how: "Cómo funciona",
         subtitles: "Subtítulos",
-        hint: "Toca para recibir un cumplido*",
-        small: "*cumplido no garantizado. Sube el volumen.",
+        hint: "Toca para recibir un cumplido",
+        small: "Sube el volumen.",
         press: "Pulsa para recibir un cumplido de tu gato",
         langs: "Idioma",
         close: "Cerrar",
@@ -111,8 +111,8 @@
       ui: {
         how: "Come funziona",
         subtitles: "Sottotitoli",
-        hint: "Tocca per un complimento*",
-        small: "*complimento non garantito. Alza il volume.",
+        hint: "Tocca per un complimento",
+        small: "Alza il volume.",
         press: "Premi per un complimento dal tuo gatto",
         langs: "Lingua",
         close: "Chiudi",
@@ -161,8 +161,8 @@
       ui: {
         how: "Comment ça marche",
         subtitles: "Sous-titres",
-        hint: "Touche pour un compliment*",
-        small: "*compliment non garanti. Monte le son.",
+        hint: "Touche pour un compliment",
+        small: "Monte le son.",
         press: "Appuie pour un compliment de ton chat",
         langs: "Langue",
         close: "Fermer",
