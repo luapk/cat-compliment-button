@@ -227,7 +227,7 @@
   /* ---------- fit the 440x340 stage to the screen (bigger on iPad) ---------- */
   function resize() {
     const w = window.innerWidth - 32;
-    const h = window.innerHeight - 340;
+    const h = window.innerHeight - 400; // room for the nav, bubble, hint and footer
     const k = Math.max(0.5, Math.min(1.7, w / 440, h / 340));
     stage.style.transform = `scale(${k})`;
     fit.style.width = `${440 * k}px`;

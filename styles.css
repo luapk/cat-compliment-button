@@ -478,6 +478,59 @@ dialog.how::backdrop { background: rgba(43, 26, 0, .5); }
 .view input:focus-visible { outline: 3px dashed var(--ink); outline-offset: 4px; border-radius: 6px; }
 .view-end { min-width: 4ch; text-align: center; }
 
+/* ---------- Mars footer: one slim line on the main screen ---------- */
+.site-foot {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  padding: 6px max(16px, env(safe-area-inset-right, 0px)) max(8px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2px 14px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.site-foot a, .legal-links a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 28px;
+}
+.site-foot a:focus-visible, .legal-links a:focus-visible { outline: 2px dashed var(--ink); outline-offset: 2px; border-radius: 4px; }
+.ext { width: 9px; height: 9px; flex: none; }
+/* keep the centred content clear of the footer line */
+body { padding-bottom: 52px; }
+@media (max-width: 379px) {
+  .site-foot { font-size: 10.5px; gap: 2px 9px; }
+  .ext { display: none; }
+}
+
+/* ... and the full small print at the bottom of How it works */
+.small-print {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 2px solid rgba(43, 26, 0, .15);
+}
+.small-print h3 { margin: 0 0 6px; font-size: 15px; }
+.how .legal-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.how .legal-links li + li { margin-top: 0; }
+.small-print .tm { margin: 10px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--ink-soft); }
+
 @media (prefers-reduced-motion: reduce) {
   .bubble, .cap-side, .cap-top, .seat, .switch .track, .switch .thumb, .chev, .lang-menu, .set-panel, .cog { transition: none; animation: none !important; }
   .caret { animation: none; }

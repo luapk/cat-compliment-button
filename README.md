@@ -156,6 +156,24 @@ the jokes and the treat guidance before launch.
   language choice, in the browser on that device. If analytics are wanted, add them through the site's
   consent setup and add the analytics host to the CSP in `vercel.json`.
 
+## Mars footer
+
+Copied from the footer of temptationstreats.com (US): a slim line on the main
+screen (copyright, Privacy, Legal, Accessibility), and the small print with the
+full trademark notice at the bottom of How it works. It stays in English in
+every language, because it is Mars's legal wording and the pages are English.
+
+Linked now (addresses confirmed on mars.com): Privacy Statement
+(mars.com/privacy), Legal (mars.com/legal), Accessibility
+(mars.com/accessibility), Supply Chain Transparency
+(mars.com/about/policies-and-practices/ca-supply-chain-transparency-act).
+
+Still to add once Mars confirms the US addresses: Site Owner, Modern Slavery
+Act, Cookie Notice, Your Privacy Choices, and the Follow Us social links.
+Deliberately left out: Cookie Settings and Ad Choices (the site sets no
+advertising or analytics cookies, only the essential password cookie),
+COVID-19 Response, Careers, and the newsletter sign-up.
+
 ## Before going live
 
 - Legal and brand sign-off on all 12 lines and on the logo use.
