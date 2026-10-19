@@ -137,7 +137,8 @@ the jokes and the treat guidance before launch.
 - **Subtitles** (nav bar) shows or hides the speech bubble. Screen readers get
   every line either way.
 - **Language** (the flag in the nav bar; press it to choose). English is the default.
-- **View angle** (Settings, the cog in the nav bar), from straight down to 45 degrees.
+- **View angle** (Settings, the cog in the nav bar), a tilt from straight down (0) to
+  level with the button, side on (90). It starts at 45.
   It moves the 3D camera; the CSS fallback drawing follows the same angle.
 - All three are remembered on that device only (browser storage); nothing is sent.
 

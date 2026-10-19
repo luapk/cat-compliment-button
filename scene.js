@@ -179,8 +179,11 @@ function start() {
   const camera = new THREE.PerspectiveCamera(24, 1, 0.1, 100);
   const target = new THREE.Vector3(0, 0.35, 0);
   function placeCamera() {
+    // Slider = tilt from straight down (0) to level with the table (90).
     const deg = Math.min(89.9, 90 - Number(viewInput ? viewInput.value : 45));
     const rad = THREE.MathUtils.degToRad(deg);
+    // Aim at the button's middle: low on it from above, halfway up from the side.
+    target.y = 0.35 + 0.35 * Math.cos(rad);
     const dist = 12;
     camera.position.set(0, target.y + dist * Math.sin(rad), dist * Math.cos(rad));
     camera.lookAt(target);

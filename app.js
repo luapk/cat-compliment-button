@@ -236,10 +236,11 @@
   window.addEventListener("resize", resize);
   resize();
 
-  /* ---------- viewing angle: slider left = straight down, right = 45 degrees ---------- */
+  /* ---------- viewing angle: the slider is the tilt away from straight down,
+     0 (looking down on the button) to 90 (level with it, side on) ---------- */
   const viewInput = $("view");
   const angle = () => 90 - Number(viewInput.value);
-  const viewText = () => (angle() === 90 ? COPY[lang].ui.top : `${angle()}°`);
+  const viewText = () => (viewInput.value === "0" ? COPY[lang].ui.top : `${viewInput.value}°`);
   function setView(fromSlider) {
     const rad = angle() * Math.PI / 180;
     stage.style.setProperty("--s", Math.sin(rad).toFixed(4));
@@ -249,7 +250,7 @@
   }
   {
     const saved = Number(store.get("catbutton.view"));
-    if (store.get("catbutton.view") !== null && saved >= 0 && saved <= 45) viewInput.value = String(saved);
+    if (store.get("catbutton.view") !== null && saved >= 0 && saved <= 90) viewInput.value = String(saved);
   }
   viewInput.addEventListener("input", () => setView(true));
   setView(false);
