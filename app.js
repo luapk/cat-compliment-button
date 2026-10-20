@@ -29,7 +29,7 @@
           "Change the view angle in Settings, the cog at the top.",
           "Pick your language with the flag at the top."
         ],
-        note: "Best viewed on iPad. Turn the sound up.",
+        note: "Best viewed on a tablet. Turn the sound up.",
         treatTitle: "How to treat your cat with Temptations",
         treats: [
           "Shake the pack. Your cat will come running.",
@@ -78,7 +78,7 @@
           "Cambia el ángulo de vista en Ajustes, el engranaje de arriba.",
           "Elige el idioma con la bandera de arriba."
         ],
-        note: "Se ve mejor en iPad. Sube el volumen.",
+        note: "Se ve mejor en una tableta. Sube el volumen.",
         treatTitle: "Cómo premiar a tu gato con Temptations",
         treats: [
           "Agita el paquete. Tu gato vendrá corriendo.",
@@ -127,7 +127,7 @@
           "Cambia l’angolo di vista in Impostazioni, l’ingranaggio in alto.",
           "Scegli la lingua con la bandierina in alto."
         ],
-        note: "Ideale su iPad. Alza il volume.",
+        note: "Ideale su tablet. Alza il volume.",
         treatTitle: "Come premiare il tuo gatto con Temptations",
         treats: [
           "Scuoti la confezione. Il tuo gatto arriverà di corsa.",
@@ -176,7 +176,7 @@
           "Change l’angle de vue dans Réglages, la roue dentée en haut.",
           "Choisis ta langue avec le drapeau en haut."
         ],
-        note: "Idéal sur iPad. Monte le son.",
+        note: "Idéal sur tablette. Monte le son.",
         treatTitle: "Comment récompenser ton chat avec Temptations",
         treats: [
           "Secoue le sachet. Ton chat arrivera en courant.",
@@ -220,11 +220,16 @@
   let lang = LANGS.includes(store.get("catbutton.lang")) ? store.get("catbutton.lang") : "en";
   let subs = store.get("catbutton.subs") !== "off";
 
-  /* ---------- fit the 440x340 stage to the screen (bigger on iPad) ---------- */
+  /* ---------- fit the 440x340 stage to the screen ----------
+     The button takes whatever height is left once the nav, the subtitle space,
+     the hint and the footer are measured, so short laptop screens and tall
+     tablets both get the largest button that fits. */
+  const hintEl = document.querySelector(".hint");
   function resize() {
     const w = window.innerWidth - 32;
-    const h = window.innerHeight - 400; // room for the nav, bubble, hint and footer
-    const k = Math.max(0.5, Math.min(1.7, w / 440, h / 340));
+    const used = 76 /* nav */ + 52 /* footer */ + bubbleWrap.offsetHeight + hintEl.offsetHeight + 20 /* gaps */;
+    const h = window.innerHeight - used;
+    const k = Math.max(0.5, Math.min(2.2, w / 440, h / 340));
     stage.style.transform = `scale(${k})`;
     fit.style.width = `${440 * k}px`;
     fit.style.height = `${340 * k}px`;

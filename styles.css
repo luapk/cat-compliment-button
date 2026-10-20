@@ -37,14 +37,22 @@ body {
 
 /* ---------- speech bubble ---------- */
 .bubble-wrap {
-  width: min(440px, 100%);
-  min-height: 120px;
+  position: relative;
+  width: min(600px, 100%);
+  /* room for a three-line subtitle on phones, two lines on wider screens */
+  min-height: clamp(84px, 13vh, 120px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
+/* The bubble sits on the bottom of its reserved space and grows upwards, so a
+   long line never pushes the button down. */
 .bubble {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+  width: max-content;
   max-width: 100%;
   background: var(--bubble);
   border: 3px solid var(--ink);
