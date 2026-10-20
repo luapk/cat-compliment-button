@@ -39,8 +39,8 @@ body {
 .bubble-wrap {
   position: relative;
   width: min(600px, 100%);
-  /* room for a three-line subtitle on phones, two lines on wider screens */
-  min-height: clamp(84px, 13vh, 120px);
+  /* room for a subtitle of up to four sentences, one per line */
+  min-height: clamp(96px, 15vh, 130px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -117,7 +117,21 @@ body {
 
 /* 3D version (scene.js): the canvas sits behind the stage, which keeps the
    real <button>; the CSS drawing is hidden only once the 3D one has rendered. */
-.gl-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+/* The 3D canvas overhangs the button's box by 30% on every side (1.6x, matching
+   CANVAS_SCALE in scene.js) and fades out towards its edges, so shadows never
+   end in a hard line. The bubble and hint sit above it. */
+.gl-canvas {
+  position: absolute;
+  left: -30%; top: -30%;
+  width: 160%; height: 160%;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 72%, transparent 100%);
+}
+.bubble-wrap, .hint { position: relative; z-index: 2; }
+#line { white-space: pre-line; }
 .fit > .stage { z-index: 1; }
 .gl .stage .abs { visibility: hidden; }
 
@@ -403,7 +417,7 @@ dialog.how::backdrop { background: rgba(43, 26, 0, .5); }
   line-height: 1.15;
 }
 .how h2 + ol, .how h2 + ul { margin-top: 0; }
-#treatTitle { margin-top: 22px; }
+#trainTitle, #treatTitle { margin-top: 22px; }
 .how ol, .how ul {
   margin: 0;
   padding-left: 22px;
@@ -538,6 +552,11 @@ body { padding-bottom: 52px; }
 }
 .how .legal-links li + li { margin-top: 0; }
 .small-print .tm { margin: 10px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--ink-soft); }
+
+/* Short screens (laptops, small phones): a four-sentence subtitle stays clear of the bar. */
+@media (max-height: 640px) {
+  .bubble { font-size: 16px; padding: 10px 14px 9px; line-height: 1.2; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .bubble, .cap-side, .cap-top, .seat, .switch .track, .switch .thumb, .chev, .lang-menu, .set-panel, .cog { transition: none; animation: none !important; }

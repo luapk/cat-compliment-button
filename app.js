@@ -30,6 +30,13 @@
           "Pick your language with the flag at the top."
         ],
         note: "Best viewed on a tablet. Turn the sound up.",
+        trainTitle: "How to train your cat",
+        train: [
+          "Lay the tablet flat on the floor where your cat likes to lounge, and let them have a good sniff.",
+          "Tap the button yourself, then give a Temptations treat straight away, so the sound means treats.",
+          "Put a treat on the button. When a paw or nose presses it, praise them and reward with another treat.",
+          "Keep it short, a few minutes a day. Soon they’ll press it on their own to tell you how wonderful you are."
+        ],
         treatTitle: "How to treat your cat with Temptations",
         treats: [
           "Shake the pack. Your cat will come running.",
@@ -79,6 +86,13 @@
           "Elige el idioma con la bandera de arriba."
         ],
         note: "Se ve mejor en una tableta. Sube el volumen.",
+        trainTitle: "Cómo entrenar a tu gato",
+        train: [
+          "Deja la tableta en el suelo, donde a tu gato le gusta descansar, y deja que la olfatee bien.",
+          "Pulsa tú el botón y dale enseguida un premio Temptations, para que el sonido signifique premio.",
+          "Pon un premio sobre el botón. Cuando lo pulse con la pata o el hocico, felicítalo y dale otro premio.",
+          "Sesiones cortas, unos minutos al día. Pronto lo pulsará por su cuenta para dedicarte sus cumplidos."
+        ],
         treatTitle: "Cómo premiar a tu gato con Temptations",
         treats: [
           "Agita el paquete. Tu gato vendrá corriendo.",
@@ -128,6 +142,13 @@
           "Scegli la lingua con la bandierina in alto."
         ],
         note: "Ideale su tablet. Alza il volume.",
+        trainTitle: "Come addestrare il tuo gatto",
+        train: [
+          "Appoggia il tablet sul pavimento dove il tuo gatto ama riposare e lascia che lo annusi per bene.",
+          "Tocca tu il pulsante e dagli subito un premio Temptations, così il suono vorrà dire premio.",
+          "Metti un premio sul pulsante. Quando lo preme con la zampa o il naso, lodalo e dagli un altro premio.",
+          "Sessioni brevi, pochi minuti al giorno. Presto lo premerà da solo per farti i suoi complimenti."
+        ],
         treatTitle: "Come premiare il tuo gatto con Temptations",
         treats: [
           "Scuoti la confezione. Il tuo gatto arriverà di corsa.",
@@ -177,6 +198,13 @@
           "Choisis ta langue avec le drapeau en haut."
         ],
         note: "Idéal sur tablette. Monte le son.",
+        trainTitle: "Comment dresser ton chat",
+        train: [
+          "Pose la tablette à plat par terre, là où ton chat aime se prélasser, et laisse-le bien la renifler.",
+          "Touche toi-même le bouton, puis donne-lui tout de suite une friandise Temptations\u00a0: le son voudra dire friandise.",
+          "Pose une friandise sur le bouton. Quand il appuie avec la patte ou le museau, félicite-le et donne-lui une autre friandise.",
+          "Des séances courtes, quelques minutes par jour. Bientôt, il appuiera tout seul pour te faire ses compliments."
+        ],
         treatTitle: "Comment récompenser ton chat avec Temptations",
         treats: [
           "Secoue le sachet. Ton chat arrivera en courant.",
@@ -357,6 +385,10 @@
     lineEl.textContent = "";
     bubble.classList.add("idle");
   }
+  // Subtitles: each new sentence starts on its own line. Only where the next
+  // word opens a sentence (capital, or Spanish ¿ ¡), so "I nap... and I nap"
+  // stays together.
+  const sentenceLines = t => t.replace(/([.?!…])\s+(?=[A-ZÀ-ÖØ-Þ¿¡"“‘'])/g, "$1\n");
   function show(text) {
     // Screen readers always get the line, subtitles on or off.
     live.textContent = text;
@@ -365,6 +397,7 @@
     bubble.classList.remove("idle", "pop");
     void bubble.offsetWidth;
     bubble.classList.add("pop");
+    text = sentenceLines(text);
     let i = 0;
     lineEl.textContent = "";
     const caret = '<span class="caret">|</span>';
@@ -410,6 +443,8 @@
     $("howTitle").textContent = c.guide.title;
     fillList($("howSteps"), c.guide.steps.map(t => t.replace("{n}", COUNT)));
     $("howNote").textContent = c.guide.note;
+    $("trainTitle").textContent = c.guide.trainTitle;
+    fillList($("trainSteps"), c.guide.train);
     $("treatTitle").textContent = c.guide.treatTitle;
     fillList($("treatList"), c.guide.treats);
     $("howClose").setAttribute("aria-label", c.ui.close);

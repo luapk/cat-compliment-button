@@ -147,6 +147,11 @@ function start() {
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     logoMat.map = tex;
+    // The logo lights itself a little, so its whites read as white under the
+    // studio lighting instead of greying off; black stays black.
+    logoMat.emissive = new THREE.Color(0xffffff);
+    logoMat.emissiveMap = tex;
+    logoMat.emissiveIntensity = 0.4;
     logoMat.needsUpdate = true;
     render();
   });
@@ -189,13 +194,16 @@ function start() {
     camera.lookAt(target);
   }
 
+  // The canvas is CANVAS_SCALE times the button's box (see .gl-canvas), so the
+  // soft shadows fade out well before its edges instead of being cut off.
+  const CANVAS_SCALE = 1.6;
   function size() {
-    const w = fit.clientWidth, h = fit.clientHeight;
+    const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    // Fit the button's width (plus its shadow) into the frame at any angle.
-    const dist = 12, halfW = BASE_R + 0.45, halfH = BASE_R + 0.35;
+    // Fit the button's width (plus its shadow) into the middle of the frame at any angle.
+    const dist = 12, halfW = (BASE_R + 0.45) * CANVAS_SCALE, halfH = (BASE_R + 0.35) * CANVAS_SCALE;
     const fromWidth = 2 * Math.atan(halfW / dist / camera.aspect);
     const fromHeight = 2 * Math.atan(halfH / dist);
     camera.fov = THREE.MathUtils.radToDeg(Math.max(fromWidth, fromHeight));
