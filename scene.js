@@ -26,6 +26,7 @@ try {
 }
 
 if (renderer) start();
+else document.documentElement.classList.remove("gl-wait"); // show the CSS button
 
 function start() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -133,28 +134,24 @@ function start() {
   cap.add(capMesh);
   scene.add(cap);
 
-  // The logo, printed flat on the cap's top.
-  const logoMat = new THREE.MeshPhysicalMaterial({
-    transparent: true, roughness: 0.45, clearcoat: 1, clearcoatRoughness: 0.1,
+  // The logo, printed flat on the cap's top. It is unlit and skips tone
+  // mapping, so it shows the artwork's own black and white exactly: lit, the
+  // lacquer's reflections greyed the lettering and creamed the white.
+  const logoMat = new THREE.MeshBasicMaterial({
+    transparent: true, toneMapped: false,
     polygonOffset: true, polygonOffsetFactor: -2, depthWrite: false
   });
   const logo = new THREE.Mesh(new THREE.PlaneGeometry(1.86, 1.86 * 151 / 281), logoMat);
   logo.rotation.x = -Math.PI / 2;
   logo.position.y = CAP_H + 0.02;
-  logo.receiveShadow = true;
   cap.add(logo);
-  new THREE.TextureLoader().load("assets/temptations-logo.png", tex => {
+  const logoReady = new Promise(done => new THREE.TextureLoader().load("assets/temptations-logo.png", tex => {
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     logoMat.map = tex;
-    // The logo lights itself a little, so its whites read as white under the
-    // studio lighting instead of greying off; black stays black.
-    logoMat.emissive = new THREE.Color(0xffffff);
-    logoMat.emissiveMap = tex;
-    logoMat.emissiveIntensity = 0.4;
     logoMat.needsUpdate = true;
-    render();
-  });
+    done();
+  }, undefined, done));
 
   // Ground: the key light's shadow, plus a soft contact shadow right under the rim.
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.ShadowMaterial({ opacity: 0.16 }));
@@ -194,19 +191,19 @@ function start() {
     camera.lookAt(target);
   }
 
-  // The canvas is CANVAS_SCALE times the button's box (see .gl-canvas), so the
-  // soft shadows fade out well before its edges instead of being cut off.
-  const CANVAS_SCALE = 1.6;
+  // Draw the button exactly as wide as the CSS drawing's base, so the two agree
+  // and nothing changes size if one replaces the other. The canvas overhangs
+  // the button's box (see .gl-canvas) so the soft shadows fade out well before
+  // its edges instead of being cut off.
+  const baseEl = stage.querySelector(".base-side");
   function size() {
     const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    // Fit the button's width (plus its shadow) into the middle of the frame at any angle.
-    const dist = 12, halfW = (BASE_R + 0.45) * CANVAS_SCALE, halfH = (BASE_R + 0.35) * CANVAS_SCALE;
-    const fromWidth = 2 * Math.atan(halfW / dist / camera.aspect);
-    const fromHeight = 2 * Math.atan(halfH / dist);
-    camera.fov = THREE.MathUtils.radToDeg(Math.max(fromWidth, fromHeight));
+    const baseW = baseEl ? baseEl.getBoundingClientRect().width : 0;
+    const perUnit = baseW ? baseW / (2 * BASE_R) : w / 6.9; // CSS px per scene unit
+    camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(h / 2 / (12 * perUnit)));
     camera.updateProjectionMatrix();
   }
 
@@ -241,8 +238,13 @@ function start() {
   placeCamera();
   size();
   render();
-  // Hide the CSS drawing only once the 3D one is on screen.
-  document.documentElement.classList.add("gl");
+  // Swap the CSS drawing for the 3D one only once the logo is on it, so the
+  // button never changes in front of anyone.
+  logoReady.then(() => {
+    render();
+    document.documentElement.classList.add("gl");
+    document.documentElement.classList.remove("gl-wait");
+  });
 
   renderer.domElement.addEventListener("webglcontextlost", e => {
     e.preventDefault();

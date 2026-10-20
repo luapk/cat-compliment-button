@@ -234,6 +234,11 @@
   const COUNT = COPY.en.lines.length;
 
   const $ = id => document.getElementById(id);
+
+  // scene.js swaps in the 3D button once it is drawn. If it has not managed
+  // that in a few seconds (blocked, very slow, or no module support), show the
+  // CSS drawing instead of an empty space; a late 3D button still takes over.
+  setTimeout(() => document.documentElement.classList.remove("gl-wait"), 4000);
   const stage = $("stage"), fit = $("fit"), press = $("press");
   const bubbleWrap = $("bubbleWrap"), bubble = $("bubble"), lineEl = $("line"), live = $("live");
   const ccBtn = $("cc"), howBtn = $("howBtn"), how = $("how");
