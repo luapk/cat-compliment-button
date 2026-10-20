@@ -41,10 +41,10 @@
       lines: [
         "I didn't know supermodels could work from home.",
         "Katie's new man is shorter than you.",
-        "You have amazing charmintellecthairlinebiceps.",
+        "But more important is your charm. Intellect. Hairline. Biceps.",
         "I always dream about you when I nap… and I nap a lot, so that's a really good compliment.",
         "Thanks for everything daddy. Is it weird if I call you daddy?",
-        "Damn, you're looking like a snack right now. And I like snacks.",
+        "Dang, you're looking like a snack right now.",
         "Your hair is full and glossy. Have you been licking it?",
         "Who's a cutie patootie? It is you.",
         "You are a real cool guy.",
@@ -52,8 +52,7 @@
         "You have a very natural head shape.",
         "Your skin's so good it's like you're aging in reverse. Stop, you'll be a little baby soon!"
       ],
-      // how the voice says the run-together word, for the device-voice fallback
-      spoken: { 2: "You have amazing charm, intellect, hairline, biceps." }
+      spoken: {} // spoken wording where it differs from the subtitle (none at present)
     },
     es: {
       name: "Español",
@@ -91,10 +90,10 @@
       lines: [
         "No sabía que las supermodelos podían teletrabajar.",
         "El nuevo novio de Katie es más bajito que tú.",
-        "Tienes un encantointelectopelobíceps increíble.",
+        "Pero lo más importante: tu encanto. Tu intelecto. Tu pelo. Tus bíceps.",
         "Siempre sueño contigo cuando duermo la siesta… y duermo muchas siestas, así que es un cumplido enorme.",
         "Gracias por todo, papi. ¿Es raro que te llame papi?",
-        "Madre mía, estás para comerte. Y a mí me encanta comer.",
+        "Vaya, estás para comerte ahora mismo.",
         "Tienes el pelo abundante y brillante. ¿Te lo has estado lamiendo?",
         "¿Quién es la cosa más bonita? Eres tú.",
         "Eres un tío muy guay.",
@@ -102,8 +101,7 @@
         "Tienes una forma de cabeza muy natural.",
         "Tu piel está tan bien que parece que rejuveneces. ¡Para, que pronto serás un bebé!"
       ],
-      // how the voice says the run-together word, for the device-voice fallback
-      spoken: { 2: "Tienes un encanto, intelecto, pelo, bíceps increíble." }
+      spoken: {} // spoken wording where it differs from the subtitle (none at present)
     },
     it: {
       name: "Italiano",
@@ -141,10 +139,10 @@
       lines: [
         "Non sapevo che le top model potessero lavorare da casa.",
         "Il nuovo ragazzo di Katie è più basso di te.",
-        "Hai un fascinointellettochiomabicipiti pazzesco.",
+        "Ma la cosa più importante è il tuo fascino. Intelletto. Chioma. Bicipiti.",
         "Ti sogno sempre quando faccio il pisolino… e faccio un sacco di pisolini, quindi è un gran complimento.",
         "Grazie di tutto, papi. È strano se ti chiamo papi?",
-        "Accidenti, sei proprio un bocconcino. E io adoro i bocconcini.",
+        "Accidenti, sei proprio un bocconcino in questo momento.",
         "Hai i capelli folti e lucidi. Te li sei leccati?",
         "Chi è il più carino del mondo? Sei tu.",
         "Sei un tipo davvero figo.",
@@ -152,8 +150,7 @@
         "Hai una forma della testa molto naturale.",
         "Hai una pelle così bella che sembri ringiovanire. Basta, tra poco sarai un neonato!"
       ],
-      // how the voice says the run-together word, for the device-voice fallback
-      spoken: { 2: "Hai un fascino, intelletto, chioma, bicipiti pazzesco." }
+      spoken: {} // spoken wording where it differs from the subtitle (none at present)
     },
     fr: {
       name: "Français",
@@ -191,10 +188,10 @@
       lines: [
         "Je ne savais pas que les top-modèles pouvaient télétravailler.",
         "Le nouveau copain de Katie est plus petit que toi.",
-        "Tu as un charmeintellectchevelurebiceps incroyable.",
+        "Mais le plus important, c'est ton charme. Ton intellect. Tes cheveux. Tes biceps.",
         "Je rêve toujours de toi pendant mes siestes… et je fais beaucoup de siestes, alors c'est un sacré compliment.",
         "Merci pour tout, daddy. C'est bizarre si je t'appelle daddy\u00a0?",
-        "Waouh, tu es à croquer. Et j'adore croquer.",
+        "Waouh, tu es à croquer en ce moment.",
         "Tes cheveux sont épais et brillants. Tu les as léchés\u00a0?",
         "Qui c'est le plus mignon\u00a0? C'est toi.",
         "T'es vraiment un mec cool.",
@@ -202,8 +199,7 @@
         "Tu as une forme de tête très naturelle.",
         "Ta peau est si belle qu'on dirait que tu rajeunis. Arrête, tu vas bientôt redevenir un bébé\u00a0!"
       ],
-      // how the voice says the run-together word, for the device-voice fallback
-      spoken: { 2: "Tu as un charme, intellect, chevelure, biceps incroyable." }
+      spoken: {} // spoken wording where it differs from the subtitle (none at present)
     }
   };
   const LANGS = Object.keys(COPY);
@@ -328,7 +324,7 @@
   /* ---------- the recorded voice ---------- */
   // Bump AUDIO_VERSION (here and in sw.js) whenever the clips change: the new
   // address makes every browser fetch the new recording instead of a saved one.
-  const AUDIO_VERSION = "4";
+  const AUDIO_VERSION = "5";
   const clipUrl = i => `audio/${lang}/${String(i + 1).padStart(2, "0")}.mp3?v=${AUDIO_VERSION}`;
   // One element, played straight from the tap so phones allow it. An <audio>
   // element also plays with an iPhone on silent, which Web Audio does not.

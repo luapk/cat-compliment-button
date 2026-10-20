@@ -99,7 +99,28 @@ that domain there.
 
 ## Swapping in the Adam&Eve recordings
 
-The clips in `audio/` are synthetic placeholders made with Kokoro, an
+**English (`audio/en/`) is the recorded voice**, delivered 19/10/26 ("Jamie
+Compliments"). Each file was renamed to the number of the line it says:
+
+| File | Recording | Line |
+| --- | --- | --- |
+| 01 | Supermodels Wfh | I didn't know supermodels could work from home. |
+| 02 | Katie | Katie's new man is shorter than you. |
+| 03 | More Important | But more important is your charm. Intellect. Hairline. Biceps. |
+| 04 | Dream About You | I always dream about you when I nap... |
+| 05 | Daddy | Thanks for everything daddy. Is it weird if I call you daddy? |
+| 06 | Ling Like A Snack | Dang, you're looking like a snack right now. |
+| 07 | Glossy Hair | Your hair is full and glossy. Have you been licking it? |
+| 08 | Cutie Patootie | Who's a cutie patootie? It is you. |
+| 09 | Cool Guy | You are a real cool guy. |
+| 10 | Nine Lives | I want to spend all nine of my lives with you. |
+| 11 | Natural Head Shape | You have a very natural head shape. |
+| 12 | Good Skin | Your skin's so good it's like you're aging in reverse... |
+
+The subtitles were checked against the recordings with a speech-to-text pass
+(Whisper small.en): lines 3 and 6 were rewritten to match what is said.
+
+Spanish, Italian and French are still synthetic placeholders made with Kokoro, an
 open-source speech model (Apache 2.0 licence): the voice Isabella (`bf_isabella`,
 British) for English, and Dora, Sara and Siwis for Spanish, Italian and French,
 all with a robot effect added in ffmpeg (echo, tremolo, high-pass). To use the
